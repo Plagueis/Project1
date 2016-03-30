@@ -1,0 +1,13 @@
+﻿  Main.cpp
+Main.cpp(95): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+Main.cpp(96): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+Main.cpp(97): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+Main.cpp(98): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+Main.cpp(13): warning C4101: 'L': unreferenced local variable
+Main.cpp(13): warning C4101: 'P': unreferenced local variable
+Main.cpp(13): warning C4101: 'D': unreferenced local variable
+Main.cpp(12): warning C4101: 'kier': unreferenced local variable
+Main.cpp(13): warning C4101: 'G': unreferenced local variable
+Main.cpp(12): warning C4101: 'szyb': unreferenced local variable
+  Bonus.obj : /DEBUG:FASTLINK is not supported when managed code is present; restarting link with /DEBUG:FULL
+sfml-graphics-s-d.lib(Color.cpp.obj) : fatal error LNK1112: module machine type 'x64' conflicts with target machine type 'X86'
