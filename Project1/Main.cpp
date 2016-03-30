@@ -4,7 +4,11 @@
 #include<ctime>
 #include<math.h>
 #include<vector>
+<<<<<<< HEAD
 //kopytko
+=======
+//tu bylem
+>>>>>>> 34fa353eb2f107c0f01829026f5eeaceb70f954d
 #include"Gracz.h"
 #include"Wrog.h"
 #include"Pocisk.h"
