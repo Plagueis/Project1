@@ -2,6 +2,10 @@
 #include "Wrog.h"
 #include "Gracz.h"
 
+#define PRED 6
+#define PROM 3
+#define SILA 5
+
 int Pocisk::liczebnoscP = 0;
 
 void Pocisk::atak(Wrog &cel)
@@ -22,21 +26,21 @@ void Pocisk::oslabienie()
 Pocisk::Pocisk(Gracz &strzelajacy)
 {
 	liczebnoscP++;
-	sila = 5;
-	promien = 3;
+	sila = SILA;
+	promien = PROM;
 	pozycja = strzelajacy.gdzie();
 	orientacja = strzelajacy.kierunek();
-	predkosc = 6;
+	predkosc = PRED;
 }
 
 Pocisk::Pocisk(const Pocisk &wzor)
 {
 	liczebnoscP++;
-	sila = 5;
-	promien = 3;
+	sila = wzor.sila;
+	promien = wzor.promien;
 	pozycja = wzor.pozycja;
 	orientacja = wzor.orientacja;
-	predkosc = 6;
+	predkosc = wzor.predkosc;
 }
 
 

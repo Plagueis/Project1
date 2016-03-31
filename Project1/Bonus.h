@@ -1,11 +1,15 @@
 #pragma once
 #include"Punkt.h"
-class Bonus
+#include"Istota.h"
+class Bonus : public Istota
 {
 private:
-	Punkt pozycja;
-	int typ;
+	int wartosc;
 public:
-	Bonus(Punkt start, int los);
-	int jaki();
+	static int liczebnoscB;
+	Bonus(Punkt start, int wartosc);
+	Bonus(double x, double y, int moc);
+	Bonus(const Bonus & wzor);
+	~Bonus();
+	int moc();
 };

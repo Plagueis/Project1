@@ -8,12 +8,28 @@
 #include"Gracz.h"
 #include"Wrog.h"
 #include"Pocisk.h"
-
-#define ILOSC_BAZ 4
-#define SZEROKOSC 1000
-#define WYSOKOSC 500
+#include"Bonus.h"
 
 using namespace std;
+
+///////////////////////////////////////////////
+//USTANOWIENIE PODSTAWOWYCH PARAMETROW GRY////
+/////////////////////////////////////////////
+#define POCZ_ILOSC_BAZ 2
+#define SZEROKOSC 1000
+#define WYSOKOSC 500
+#define ZYCIE 1000
+#define MAX_BONUS ZYCIE/4
+
+///////////////////////////////////////////////////////////////////////
+//CZESTOTLIWOSCI POJAWIANIA SIE POSZCZEGOLNYCH ISTOT WYRAZONE W HZ////
+/////////////////////////////////////////////////////////////////////
+#define F_POCISK 10
+#define F_WROG 1
+#define F_BAZA 0.2
+#define F_BONUS 0.01
+
+
 
 int main()
 {
@@ -27,46 +43,63 @@ int main()
 ////DEKLARACJA ZMIENNYCH POMOCNICZYCH/////
 /////////////////////////////////////////
 	bool L, P, G, D;
-	int taktowanie_wrogow=0, taktowanie_pociskow=0;
+	int taktowanie_wrogow = 0, taktowanie_pociskow = 0, taktowanie_bonusow = 0, taktowanie_baz = 0, ilosc_baz = 0;
+	double procent_zdrowia = 0;
+
+//////////////////////////////////////
+////UTWORZENIE ZMIENNYCH CZASOWYCH///
+////////////////////////////////////
+	sf::Time czas, dt;
+	sf::Clock zegar;
+	dt = zegar.getElapsedTime();
+	srand(int(time(NULL)));
 
 //////////////////////////////////////////////////
 ///DEKLARACJA CHARAKTERYSTYCZNYCH PUNKTOW MAPY///
 ////////////////////////////////////////////////
-	Punkt baza[ILOSC_BAZ];
-	baza[0].ustaw(100, 100);
-	baza[1].ustaw(800, 100);
-	baza[2].ustaw(100, 400);
-	baza[3].ustaw(800, 400);
+	Punkt *miejsce;
+	vector<Punkt>baza;
+
+	for (int i = 0; i < POCZ_ILOSC_BAZ; i++)
+	{	
+		miejsce = new Punkt(rand() % SZEROKOSC, rand() % WYSOKOSC);
+		baza.push_back(*miejsce);
+		delete miejsce;
+	}
+
+	ilosc_baz = POCZ_ILOSC_BAZ;
+
 	Punkt mysz;
 
 
-///////////////////////////////////////////////////////////////////////
-///STWORZENIE NARZEDZI DO DYNAMICZNEJ OBSLUGI POCISKOW I WROGOW///////
-/////////////////////////////////////////////////////////////////////
-	Pocisk *wsk2;
-	vector<Pocisk>seria;
+////////////////////////////////////////////////////////////////////////////////
+///STWORZENIE NARZEDZI DO DYNAMICZNEJ OBSLUGI POCISKOW, WROGOW I BONUSOW///////
+//////////////////////////////////////////////////////////////////////////////
 	Wrog *wsk1;
 	vector<Wrog>armia;
+	Pocisk *wsk2;
+	vector<Pocisk>seria;
+	Bonus *wsk3;
+	vector<Bonus>apteczka;
 
 ///////////////////////////////////////////////
 ////POWOLANIE DO ZYCIA POCZATKOWYCH WROGOW////
 /////////////////////////////////////////////
 	wsk1 = new Wrog;
-	armia.push_back(*wsk1);
-	armia.push_back(*wsk1);
-	armia.push_back(*wsk1);
-	armia.push_back(*wsk1);
+
+	for (int i = 0; i < POCZ_ILOSC_BAZ; i++)
+		armia.push_back(*wsk1);
+
 	delete wsk1;
-	armia[0].ustaw(baza[0]);
-	armia[1].ustaw(baza[1]);
-	armia[2].ustaw(baza[2]);
-	armia[3].ustaw(baza[3]);
+
+	for (int i = 0; i < POCZ_ILOSC_BAZ; i++)
+		armia[i].ustaw(baza[i]);
 	
 
 /////////////////////////////////
 ////POWOLANIE DO ZYCIA GRACZA///
 ///////////////////////////////
-	Gracz gracz;
+	Gracz gracz(ZYCIE);
 	Punkt start(SZEROKOSC/2, WYSOKOSC/2);
 	gracz.ustaw(start);
 
@@ -85,6 +118,20 @@ int main()
 	Wr.setFillColor(sf::Color::Blue);
 	Wr.setOrigin(10, 10);
 
+/////////////////////////////////
+/////STWORZENIE MODELU BAZY/////
+///////////////////////////////
+	sf::CircleShape Ba(15.f);
+	Ba.setFillColor(sf::Color::Yellow);
+	Ba.setOrigin(15, 15);
+
+///////////////////////////////////
+/////STWORZENIE MODELU BONUSU////
+/////////////////////////////////
+	sf::CircleShape Bo(8.f);
+	Bo.setFillColor(sf::Color::Cyan);
+	Bo.setOrigin(8, 8);
+
 ////////////////////////////////////
 /////STWORZENIE MODELU POCISKU/////
 //////////////////////////////////
@@ -101,14 +148,6 @@ int main()
 	czerwony.setPosition(0, 0);
 	zielony.setFillColor(sf::Color::Green);
 	czerwony.setFillColor(sf::Color::Red);
-
-//////////////////////////////////////
-////UTWORZENIE ZMIENNYCH CZASOWYCH///
-////////////////////////////////////
-	sf::Time czas, dt;
-	sf::Clock zegar;
-	dt = zegar.getElapsedTime();
-	srand(int(time(NULL)));
 
 
 //////////////////////////////////
@@ -136,17 +175,53 @@ int main()
 		D = sf::Keyboard::isKeyPressed(sf::Keyboard::S);
 		mysz.ustaw(sf::Mouse::getPosition(okno).x, sf::Mouse::getPosition(okno).y);
 
+
+
+///////////////////////////////
+///GENEROWANIE NOWEJ BAZY/////
+/////////////////////////////
+
+		if (taktowanie_baz != int(round(czas.asSeconds()*F_BAZA)))
+		{
+			if (ilosc_baz <= 10)
+			{
+				miejsce = new Punkt(rand() % SZEROKOSC, rand() % WYSOKOSC);
+				baza.push_back(*miejsce);
+				delete miejsce;
+				ilosc_baz++;
+			}
+		}
+		taktowanie_baz = int(round(czas.asSeconds()*F_BAZA));
+
+
+
+//////////////////////////////////
+///GENEROWANIE NOWEGO BONUSU/////
+////////////////////////////////
+
+		if (taktowanie_bonusow != int(round(czas.asSeconds()*F_BONUS)))
+		{
+			if (Bonus::liczebnoscB < 3)
+			{
+				wsk3 = new Bonus(rand() % SZEROKOSC, rand() % WYSOKOSC, rand() % MAX_BONUS);
+				apteczka.push_back(*wsk3);
+				delete wsk3;
+			}
+		}
+		taktowanie_bonusow = int(round(czas.asSeconds()*F_BONUS));
+
+
 /////////////////////////////////
 ///GENEROWANIE NOWEGO WROGA/////
 ///////////////////////////////
 
-			if(taktowanie_wrogow != int(round(czas.asSeconds())))
+			if(taktowanie_wrogow != int(round(czas.asSeconds()*(F_WROG+0.1*ilosc_baz))))
 			{
-				wsk1 = new Wrog(baza[rand() % ILOSC_BAZ]);
+				wsk1 = new Wrog(baza[rand() % ilosc_baz]);
 				armia.push_back(*wsk1);
 				delete wsk1;
 			}
-			taktowanie_wrogow = int(round(czas.asSeconds()));
+			taktowanie_wrogow = int(round(czas.asSeconds()*(F_WROG+0.1*ilosc_baz)));
 
 
 
@@ -155,7 +230,7 @@ int main()
 ///GENEROWANIE NOWEGO POCISKU/////
 /////////////////////////////////
 
-			if (taktowanie_pociskow != int(round(czas.asSeconds()*10)))
+			if (taktowanie_pociskow != int(round(czas.asSeconds()*F_POCISK)))
 			{
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && seria.size() < 5)
 				{
@@ -164,10 +239,8 @@ int main()
 				delete wsk2;
 
 				}
-				
-			
 			}
-			taktowanie_pociskow = int(round(czas.asSeconds()*10));
+			taktowanie_pociskow = int(round(czas.asSeconds()*F_POCISK));
 
 
 
@@ -395,6 +468,29 @@ int main()
 ////////////////////////		
 		okno.clear();
 
+
+////////////////////////
+///RYSOWANIE BAZ///////
+//////////////////////
+			for (int i = 0; i < ilosc_baz; i++)
+			{
+				Ba.setPosition(float(baza[i].X()), float(baza[i].Y()));
+				okno.draw(Ba);
+			}
+
+///////////////////////////
+///RYSOWANIE BONUSOW//////
+/////////////////////////
+			if (Bonus::liczebnoscB)
+			{
+				for (int i = 0; i < Bonus::liczebnoscB; i++)
+				{
+					Bo.setPosition(float(apteczka[i].gdzie().X()), float(apteczka[i].gdzie().Y()));
+					okno.draw(Bo);
+				}
+			}
+
+
 ///////////////////////////
 ///RYSOWANIE WROGOW///////
 /////////////////////////
@@ -432,7 +528,7 @@ int main()
 /////////////////////////
 ////RYSOWANIE PASKA/////
 ///////////////////////
-		double procent_zdrowia = (gracz.zdrowie() * 300) / SZEROKOSC;
+		procent_zdrowia = (gracz.zdrowie() * 300) / ZYCIE;
 		czerwony.setSize(sf::Vector2f(300, 30));
 		zielony.setSize(sf::Vector2f(float(procent_zdrowia), 30));
 		czerwony.setPosition(0, 0);

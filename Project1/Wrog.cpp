@@ -2,6 +2,10 @@
 #include "Gracz.h"
 
 #define PRED 2
+#define PROM 10
+#define SILA 1
+#define ZYCIE 5
+#define WART 10
 
 int Wrog::liczebnoscW = 0;
 
@@ -27,10 +31,10 @@ bool Wrog::martwy()
 Wrog::Wrog()
 {
 	liczebnoscW++;
-	sila = 1;
-	wartosc = 10;
-	zycie = 5;
-	promien = 10;
+	sila = SILA;
+	wartosc = WART;
+	zycie = ZYCIE;
+	promien = PROM;
 	Punkt start(promien, promien);
 	pozycja = start;
 	orientacja = 0;
@@ -40,10 +44,10 @@ Wrog::Wrog()
 Wrog::Wrog(double x, double y)
 {
 	liczebnoscW++;
-	sila = 1;
-	wartosc = 10;
-	zycie = 5;
-	promien = 10;
+	sila = SILA;
+	wartosc = WART;
+	zycie = ZYCIE;
+	promien = PROM;
 	Punkt start(x, y);
 	pozycja = start;
 	orientacja = 0;
@@ -53,10 +57,10 @@ Wrog::Wrog(double x, double y)
 Wrog::Wrog(Punkt &start)
 {
 	liczebnoscW++;
-	sila = 1;
-	wartosc = 10;
-	zycie = 5;
-	promien = 10;
+	sila = SILA;
+	wartosc = WART;
+	zycie = ZYCIE;
+	promien = PROM;
 	pozycja = start;
 	orientacja = 0;
 	predkosc = PRED;
