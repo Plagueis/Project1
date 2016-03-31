@@ -187,30 +187,48 @@ int main()
 ////RUCH GRACZA////////
 //////////////////////
 		if (L==1 && P==0 && G==0 && D==0)
-	 		gracz.zorientuj(270);
+		{
+			gracz.zorientuj(270);
+			gracz.rusz(dt.asSeconds() * 100);
+		}
+	 		
 	 		
 		if (L == 0 && P == 1 && G == 0 && D == 0)
+		{
 			gracz.zorientuj(90);
-			
+			gracz.rusz(dt.asSeconds() * 100);
+		}
 		if (L == 0 && P == 0 && G == 1 && D == 0)
+		{
 			gracz.zorientuj(0);
-			
+			gracz.rusz(dt.asSeconds() * 100);
+		}
 		if (L == 0 && P == 0 && G == 0 && D == 1)
+		{
 			gracz.zorientuj(180);
-			
+			gracz.rusz(dt.asSeconds() * 100);
+		}
 		if (L == 0 && P == 1 && G == 1 && D == 0)
+		{
 			gracz.zorientuj(45);
-			
+			gracz.rusz(dt.asSeconds() * 100);
+		}
 		if (L == 0 && P == 1 && G == 0 && D == 1)
+		{
 			gracz.zorientuj(135);
-			
+			gracz.rusz(dt.asSeconds() * 100);
+		}
 		if (L == 1 && P == 0 && G == 0 && D == 1)
+		{
 			gracz.zorientuj(225);
-			
+			gracz.rusz(dt.asSeconds() * 100);
+		}
 		if (L == 1 && P == 0 && G == 1 && D == 0)
+		{
 			gracz.zorientuj(315);
+			gracz.rusz(dt.asSeconds() * 100);
+		}
 		
-		gracz.rusz(dt.asSeconds() * 100);
 
 
 
