@@ -27,7 +27,7 @@ using namespace std;
 #define F_POCISK 10
 #define F_WROG 1
 #define F_BAZA 0.2
-#define F_BONUS 0.01
+#define F_BONUS 0.1
 
 
 
