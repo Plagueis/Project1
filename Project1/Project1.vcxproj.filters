@@ -36,6 +36,9 @@
     <ClCompile Include="Bonus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Baza.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Punkt.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Zderzacz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Baza.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

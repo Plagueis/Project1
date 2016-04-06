@@ -1,3 +1,10 @@
+//Do zrobienia:
+//	Zarobek z zabijania baz i zbierania bonusow
+//	Zmniejszanie siê baz
+//	Ulepszenia dziêki punktom
+//	Wyswietlanie wyniku
+//	Dopracowanie balansu
+
 #include <SFML/Graphics.hpp>
 #include<iostream>
 #include<cstdlib>
@@ -9,25 +16,29 @@
 #include"Wrog.h"
 #include"Pocisk.h"
 #include"Bonus.h"
+#include"Baza.h"
 
 using namespace std;
 
 ///////////////////////////////////////////////
 //USTANOWIENIE PODSTAWOWYCH PARAMETROW GRY////
 /////////////////////////////////////////////
-#define POCZ_ILOSC_BAZ 2
+#define POCZ_ILOSC_BAZ 5
 #define SZEROKOSC 1000
 #define WYSOKOSC 500
 #define ZYCIE 1000
-#define MAX_BONUS ZYCIE/4
+#define MIN_BONUS ZYCIE/4
+#define MAX_BONUS ZYCIE/2
+#define MAX_BAZ 15
 
 ///////////////////////////////////////////////////////////////////////
 //CZESTOTLIWOSCI POJAWIANIA SIE POSZCZEGOLNYCH ISTOT WYRAZONE W HZ////
 /////////////////////////////////////////////////////////////////////
 #define F_POCISK 10
 #define F_WROG 1
-#define F_BAZA 0.2
+#define F_BAZA 0.3
 #define F_BONUS 0.1
+#define F_TRUDNOSCI 0.2
 
 
 
@@ -37,63 +48,66 @@ int main()
 ///////////////////////////
 ///STWORZENIE OKNA////////
 /////////////////////////
+
 	sf::RenderWindow okno(sf::VideoMode(SZEROKOSC, WYSOKOSC), "Prototyp", sf::Style::Close);
+
 
 ///////////////////////////////////////////	
 ////DEKLARACJA ZMIENNYCH POMOCNICZYCH/////
 /////////////////////////////////////////
+
 	bool L, P, G, D;
-	int taktowanie_wrogow = 0, taktowanie_pociskow = 0, taktowanie_bonusow = 0, taktowanie_baz = 0, ilosc_baz = 0;
+	int taktowanie_wrogow = 0, taktowanie_pociskow = 0, taktowanie_bonusow = 0, taktowanie_baz = 0, trudnosc=0;
 	double procent_zdrowia = 0;
+	Punkt mysz;
+
 
 //////////////////////////////////////
 ////UTWORZENIE ZMIENNYCH CZASOWYCH///
 ////////////////////////////////////
+
 	sf::Time czas, dt;
 	sf::Clock zegar;
 	dt = zegar.getElapsedTime();
 	srand(int(time(NULL)));
 
-//////////////////////////////////////////////////
-///DEKLARACJA CHARAKTERYSTYCZNYCH PUNKTOW MAPY///
-////////////////////////////////////////////////
-	Punkt *miejsce;
-	vector<Punkt>baza;
+
+//////////////////////////////////////////////////////////////////////////////////
+///STWORZENIE NARZEDZI DO DYNAMICZNEJ OBSLUGI POCISKOW, WROGOW, BONUSOW I BAZ////
+////////////////////////////////////////////////////////////////////////////////
+
+	Wrog *nowy_wrog;
+	vector<Wrog>armia;
+	Pocisk *nowy_pocisk;
+	vector<Pocisk>seria;
+	Bonus *nowy_bonus;
+	vector<Bonus>apteczka;
+	Baza *nowa_baza;
+	vector<Baza>baza;
+
+
+/////////////////////////////////////////////
+////POWOLANIE DO ZYCIA POCZATKOWYCH BAZ/////
+///////////////////////////////////////////
 
 	for (int i = 0; i < POCZ_ILOSC_BAZ; i++)
-	{	
-		miejsce = new Punkt(rand() % SZEROKOSC, rand() % WYSOKOSC);
-		baza.push_back(*miejsce);
-		delete miejsce;
+	{
+		nowa_baza = new Baza(rand() % SZEROKOSC, rand() % WYSOKOSC);
+		baza.push_back(*nowa_baza);
+		delete nowa_baza;
 	}
-
-	ilosc_baz = POCZ_ILOSC_BAZ;
-
-	Punkt mysz;
-
-
-////////////////////////////////////////////////////////////////////////////////
-///STWORZENIE NARZEDZI DO DYNAMICZNEJ OBSLUGI POCISKOW, WROGOW I BONUSOW///////
-//////////////////////////////////////////////////////////////////////////////
-	Wrog *wsk1;
-	vector<Wrog>armia;
-	Pocisk *wsk2;
-	vector<Pocisk>seria;
-	Bonus *wsk3;
-	vector<Bonus>apteczka;
 
 ///////////////////////////////////////////////
 ////POWOLANIE DO ZYCIA POCZATKOWYCH WROGOW////
 /////////////////////////////////////////////
-	wsk1 = new Wrog;
-
+	nowy_wrog = new Wrog();
 	for (int i = 0; i < POCZ_ILOSC_BAZ; i++)
-		armia.push_back(*wsk1);
-
-	delete wsk1;
-
-	for (int i = 0; i < POCZ_ILOSC_BAZ; i++)
-		armia[i].ustaw(baza[i]);
+	{
+		armia.push_back(*nowy_wrog);
+		armia[i].ustaw(baza[i].gdzie());
+	}
+	delete nowy_wrog;
+		
 	
 
 /////////////////////////////////
@@ -165,7 +179,7 @@ int main()
 ////POBRANIE BIEZACEGO CZASU GRY/////
 ////////////////////////////////////
 		czas = zegar.getElapsedTime();
-
+		trudnosc = int(floor(czas.asSeconds() * F_TRUDNOSCI));
 /////////////////////////////////		
 ///POBRANIE DANYCH STEROWANIA///
 ///////////////////////////////
@@ -180,19 +194,17 @@ int main()
 ///////////////////////////////
 ///GENEROWANIE NOWEJ BAZY/////
 /////////////////////////////
-
+		int qwerty = 0;
 		if (taktowanie_baz != int(round(czas.asSeconds()*F_BAZA)))
 		{
-			if (ilosc_baz <= 10)
+			if (Baza::liczebnoscBaz <= MAX_BAZ)
 			{
-				miejsce = new Punkt(rand() % SZEROKOSC, rand() % WYSOKOSC);
-				baza.push_back(*miejsce);
-				delete miejsce;
-				ilosc_baz++;
+				nowa_baza = new Baza(rand() % SZEROKOSC, rand() % WYSOKOSC, trudnosc);
+				baza.push_back(*nowa_baza);
+				delete nowa_baza;
 			}
 		}
 		taktowanie_baz = int(round(czas.asSeconds()*F_BAZA));
-
 
 
 //////////////////////////////////
@@ -203,9 +215,9 @@ int main()
 		{
 			if (Bonus::liczebnoscB < 3)
 			{
-				wsk3 = new Bonus(rand() % SZEROKOSC, rand() % WYSOKOSC, rand() % MAX_BONUS);
-				apteczka.push_back(*wsk3);
-				delete wsk3;
+				nowy_bonus = new Bonus(rand() % SZEROKOSC, rand() % WYSOKOSC, (rand()%(MAX_BONUS-MIN_BONUS))+MIN_BONUS);
+				apteczka.push_back(*nowy_bonus);
+				delete nowy_bonus;
 			}
 		}
 		taktowanie_bonusow = int(round(czas.asSeconds()*F_BONUS));
@@ -214,14 +226,17 @@ int main()
 /////////////////////////////////
 ///GENEROWANIE NOWEGO WROGA/////
 ///////////////////////////////
-
-			if(taktowanie_wrogow != int(round(czas.asSeconds()*(F_WROG+0.1*ilosc_baz))))
+		if (Baza::liczebnoscBaz)
+		{
+			if(taktowanie_wrogow != int(round(czas.asSeconds()*(F_WROG+0.1*Baza::liczebnoscBaz))))
 			{
-				wsk1 = new Wrog(baza[rand() % ilosc_baz]);
-				armia.push_back(*wsk1);
-				delete wsk1;
+				nowy_wrog = new Wrog(baza[rand() % Baza::liczebnoscBaz].gdzie(), trudnosc);
+				armia.push_back(*nowy_wrog);
+				delete nowy_wrog;
 			}
-			taktowanie_wrogow = int(round(czas.asSeconds()*(F_WROG+0.1*ilosc_baz)));
+			taktowanie_wrogow = int(round(czas.asSeconds()*(F_WROG+0.1*Baza::liczebnoscBaz)));
+		}
+			
 
 
 
@@ -234,9 +249,9 @@ int main()
 			{
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && seria.size() < 5)
 				{
-				wsk2 = new Pocisk(gracz);
-				seria.push_back(*wsk2);
-				delete wsk2;
+				nowy_pocisk = new Pocisk(gracz);
+				seria.push_back(*nowy_pocisk);
+				delete nowy_pocisk;
 
 				}
 			}
@@ -412,8 +427,17 @@ int main()
 					{
 						if(armia[i].kontakt(seria[j]))
 							{
-								armia.erase(armia.begin() + i);
+								seria[j].atak(armia[i]);
 								seria.erase(seria.begin() + j);
+								
+								if (armia[i].martwy())
+								{
+									gracz.zdobycz(armia[i].lup());
+									armia.erase(armia.begin() + i);
+								}
+									
+								
+								
 								if (Wrog::liczebnoscW && Pocisk::liczebnoscP)
 								{
 									i = 0;
@@ -433,6 +457,55 @@ int main()
 			}
 		}
 
+
+/////////////////////////////////
+////BAZY PRZYJMUJA POCISKI//////
+///////////////////////////////
+		for (int i = 0; i < Baza::liczebnoscBaz; i++)
+		{
+
+			for (int j = 0; j < Pocisk::liczebnoscP; j++)
+			{
+				if (Baza::liczebnoscBaz && Pocisk::liczebnoscP)
+				{
+					if (baza[i].kontakt(seria[j]))
+					{
+						seria[j].atak(baza[i]);
+						seria.erase(seria.begin() + j);
+
+						if (baza[i].martwa())
+							baza.erase(baza.begin() + i);
+
+
+						if (Baza::liczebnoscBaz && Pocisk::liczebnoscP)
+						{
+							i = 0;
+							j = 0;
+						}
+						else
+						{
+							break;
+						}
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+
+/////////////////////////////
+//GRACZ ZBIERA BONUSY///////
+///////////////////////////
+		for (int i = 0; i < Bonus::liczebnoscB; i++)
+		{
+			if (apteczka[i].kontakt(gracz))
+			{
+				gracz.lecz(apteczka[i].moc());
+				apteczka.erase(apteczka.begin() + i);
+			}
+		}
 
 ///////////////////////////////////
 //USUNIECIE POCISKOW POZA MAPA/////
@@ -472,9 +545,13 @@ int main()
 ////////////////////////
 ///RYSOWANIE BAZ///////
 //////////////////////
-			for (int i = 0; i < ilosc_baz; i++)
+			for (int i = 0; i < Baza::liczebnoscBaz; i++)
 			{
-				Ba.setPosition(float(baza[i].X()), float(baza[i].Y()));
+				
+				Ba.setPosition(float(baza[i].gdzie().X()), float(baza[i].gdzie().Y()));
+				Ba.setOrigin(float(baza[i].rozmiar()), float(baza[i].rozmiar()));
+				Ba.setRadius(float(baza[i].rozmiar()));
+				Ba.setFillColor(sf::Color::Yellow);
 				okno.draw(Ba);
 			}
 
@@ -558,6 +635,7 @@ int main()
 ///ZAMKNIECIE/////////
 /////////////////////
 	okno.close();
+	cout << gracz.dorobek()<<endl;
 	cout << "YOU LOST" << endl;
 	system("PAUSE");
 	return 0;

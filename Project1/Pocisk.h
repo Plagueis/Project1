@@ -2,6 +2,7 @@
 #include "Istota.h"
 class Wrog;
 class Gracz;
+class Baza;
 class Pocisk : public Istota
 {
 private:
@@ -9,6 +10,7 @@ private:
 public:
 	static int liczebnoscP;
 	void atak(Wrog &cel);
+	void atak(Baza &cel);
 	void premia();
 	void oslabienie();
 	Pocisk(Gracz &strzelajacy);

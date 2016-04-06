@@ -1,16 +1,22 @@
 #include "Pocisk.h"
 #include "Wrog.h"
 #include "Gracz.h"
+#include "Baza.h"
 
 #define PRED 6
 #define PROM 3
-#define SILA 5
+#define SILA 4
 
 int Pocisk::liczebnoscP = 0;
 
 void Pocisk::atak(Wrog &cel)
 {
 	cel.uderzony(sila);
+}
+
+void Pocisk::atak(Baza & cel)
+{
+	cel.uderzona(sila);
 }
 
 void Pocisk::premia()

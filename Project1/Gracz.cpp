@@ -19,6 +19,11 @@ void Gracz::lecz(int ile)
 		zycie = zycie_poczatkowe;
 }
 
+int Gracz::dorobek()
+{
+	return zarobek;
+}
+
 int Gracz::zdrowie()
 {
 	return zycie;

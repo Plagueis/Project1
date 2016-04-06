@@ -11,6 +11,7 @@ public:
 	void uderzony(int ile);
 	void zdobycz(int ile);
 	void lecz(int ile);
+	int dorobek();
 	int zdrowie();
 	bool martwy();
 	Gracz();
