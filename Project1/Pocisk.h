@@ -6,13 +6,12 @@ class Baza;
 class Pocisk : public Istota
 {
 private:
-	int sila;
+	static int sila;
 public:
 	static int liczebnoscP;
 	void atak(Wrog &cel);
 	void atak(Baza &cel);
-	void premia();
-	void oslabienie();
+	static void premia();
 	Pocisk(Gracz &strzelajacy);
 	Pocisk(const Pocisk & wzor);
 	~Pocisk();

@@ -1,16 +1,10 @@
-//Do zrobienia:
-//	Zarobek z zabijania baz i zbierania bonusow
-//	Zmniejszanie siê baz
-//	Ulepszenia dziêki punktom
-//	Wyswietlanie wyniku
-//	Dopracowanie balansu
-
 #include <SFML/Graphics.hpp>
 #include<iostream>
 #include<cstdlib>
 #include<ctime>
 #include<math.h>
 #include<vector>
+#include<string>
 
 #include"Gracz.h"
 #include"Wrog.h"
@@ -26,6 +20,7 @@ using namespace std;
 #define POCZ_ILOSC_BAZ 5
 #define SZEROKOSC 1000
 #define WYSOKOSC 500
+#define PANEL 60
 #define ZYCIE 1000
 #define MIN_BONUS ZYCIE/4
 #define MAX_BONUS ZYCIE/2
@@ -49,18 +44,17 @@ int main()
 ///STWORZENIE OKNA////////
 /////////////////////////
 
-	sf::RenderWindow okno(sf::VideoMode(SZEROKOSC, WYSOKOSC), "Prototyp", sf::Style::Close);
-
+	sf::RenderWindow okno(sf::VideoMode(SZEROKOSC, WYSOKOSC+PANEL), "Prototyp", sf::Style::Close);
 
 ///////////////////////////////////////////	
 ////DEKLARACJA ZMIENNYCH POMOCNICZYCH/////
 /////////////////////////////////////////
 
 	bool L, P, G, D;
-	int taktowanie_wrogow = 0, taktowanie_pociskow = 0, taktowanie_bonusow = 0, taktowanie_baz = 0, trudnosc=0;
-	double procent_zdrowia = 0;
+	int taktowanie_wrogow = 0, taktowanie_pociskow = 0, taktowanie_bonusow = 0, taktowanie_baz = 0;
+	int trudnosc = 0, kolejne_ulepszenia = 1, czasomierz=0;
 	Punkt mysz;
-
+	string pisak;
 
 //////////////////////////////////////
 ////UTWORZENIE ZMIENNYCH CZASOWYCH///
@@ -153,15 +147,39 @@ int main()
 	Po.setFillColor(sf::Color::White);
 	Po.setOrigin(3, 3);
 
-///////////////////////////////////
-///////STWORZENIE MODELU PASKA////
-/////////////////////////////////
-	sf::RectangleShape zielony(sf::Vector2f(300, 30));
-	sf::RectangleShape czerwony(sf::Vector2f(300, 30));
-	zielony.setPosition(0, 0);
-	czerwony.setPosition(0, 0);
+////////////////////////////////////
+///////STWORZENIE MODELU PANELU////
+//////////////////////////////////
+	sf::RectangleShape zielony(sf::Vector2f(gracz.pojemnosc_zdrowia()/4, PANEL/2));
+	sf::RectangleShape czerwony(sf::Vector2f(gracz.zdrowie()/4, PANEL/2));
+	sf::RectangleShape pasek(sf::Vector2f(SZEROKOSC, PANEL));
+	zielony.setPosition(0, WYSOKOSC+ PANEL / 2);
+	czerwony.setPosition(0, WYSOKOSC+ PANEL / 2);
+	pasek.setPosition(0, WYSOKOSC);
 	zielony.setFillColor(sf::Color::Green);
 	czerwony.setFillColor(sf::Color::Red);
+	pasek.setFillColor(sf::Color::Magenta);
+
+///////////////////////////
+///STWORZENIE NAPISOW/////
+/////////////////////////
+
+	sf::Text licznik_czasu, licznik_pkt, licznik_ulepszen;
+	sf::Font czcionka;
+
+	czcionka.loadFromFile("arial.ttf");
+	
+	licznik_czasu.setFont(czcionka);
+	licznik_pkt.setFont(czcionka);
+	licznik_ulepszen.setFont(czcionka);
+	
+	licznik_czasu.setCharacterSize(PANEL/2);
+	licznik_pkt.setCharacterSize(PANEL/2);
+	licznik_ulepszen.setCharacterSize(PANEL/2);
+	
+	licznik_czasu.setPosition(SZEROKOSC * 2 / 3, WYSOKOSC + PANEL / 2);
+	licznik_pkt.setPosition(SZEROKOSC * 2 / 3, WYSOKOSC);
+	licznik_ulepszen.setPosition(0, WYSOKOSC);
 
 
 //////////////////////////////////
@@ -178,8 +196,11 @@ int main()
 //////////////////////////////////////
 ////POBRANIE BIEZACEGO CZASU GRY/////
 ////////////////////////////////////
+
 		czas = zegar.getElapsedTime();
 		trudnosc = int(floor(czas.asSeconds() * F_TRUDNOSCI));
+
+
 /////////////////////////////////		
 ///POBRANIE DANYCH STEROWANIA///
 ///////////////////////////////
@@ -188,7 +209,6 @@ int main()
 		G = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 		D = sf::Keyboard::isKeyPressed(sf::Keyboard::S);
 		mysz.ustaw(sf::Mouse::getPosition(okno).x, sf::Mouse::getPosition(okno).y);
-
 
 
 ///////////////////////////////
@@ -215,7 +235,7 @@ int main()
 		{
 			if (Bonus::liczebnoscB < 3)
 			{
-				nowy_bonus = new Bonus(rand() % SZEROKOSC, rand() % WYSOKOSC, (rand()%(MAX_BONUS-MIN_BONUS))+MIN_BONUS);
+				nowy_bonus = new Bonus(rand() % SZEROKOSC, rand() % WYSOKOSC, (rand()%(MAX_BONUS-MIN_BONUS))+MIN_BONUS, rand()%(trudnosc*100));
 				apteczka.push_back(*nowy_bonus);
 				delete nowy_bonus;
 			}
@@ -266,9 +286,7 @@ int main()
 /////////////////////////////////
 ///POBRANIE JEDNOSTKI CZASU/////
 ///////////////////////////////
-		dt = zegar.getElapsedTime() - dt;
-		
-
+		dt = zegar.getElapsedTime() - dt;	
 
 
 ////////////////////////
@@ -474,7 +492,11 @@ int main()
 						seria.erase(seria.begin() + j);
 
 						if (baza[i].martwa())
+						{
+							gracz.zdobycz(baza[i].lup());
 							baza.erase(baza.begin() + i);
+						}
+							
 
 
 						if (Baza::liczebnoscBaz && Pocisk::liczebnoscP)
@@ -503,6 +525,7 @@ int main()
 			if (apteczka[i].kontakt(gracz))
 			{
 				gracz.lecz(apteczka[i].moc());
+				gracz.zdobycz(apteczka[i].lup());
 				apteczka.erase(apteczka.begin() + i);
 			}
 		}
@@ -533,6 +556,17 @@ int main()
 					
 				
 			}
+		}
+
+//////////////////////////////
+//PRZYDZIELENIE ULEPSZENIA///
+////////////////////////////
+		if (gracz.dorobek() > 5000 * kolejne_ulepszenia + kolejne_ulepszenia * kolejne_ulepszenia * 200)
+		{
+			Pocisk::premia();
+			if(kolejne_ulepszenia<7)
+				gracz.premia();
+			kolejne_ulepszenia++;
 		}
 		
 		
@@ -605,13 +639,55 @@ int main()
 /////////////////////////
 ////RYSOWANIE PASKA/////
 ///////////////////////
-		procent_zdrowia = (gracz.zdrowie() * 300) / ZYCIE;
-		czerwony.setSize(sf::Vector2f(300, 30));
-		zielony.setSize(sf::Vector2f(float(procent_zdrowia), 30));
-		czerwony.setPosition(0, 0);
-		zielony.setPosition(0, 0);
+		czerwony.setSize(sf::Vector2f(gracz.pojemnosc_zdrowia()/4, PANEL/2));
+		zielony.setSize(sf::Vector2f(gracz.zdrowie()/4, PANEL/2));
+		zielony.setPosition(0, WYSOKOSC+ PANEL / 2);
+		czerwony.setPosition(0, WYSOKOSC+ PANEL / 2);
+		pasek.setPosition(0, WYSOKOSC);
+		okno.draw(pasek);
 		okno.draw(czerwony);
 		okno.draw(zielony);
+
+///////////////////////
+///RYSOWANIE NAPISOW//
+/////////////////////
+
+		czasomierz = zegar.getElapsedTime().asSeconds();
+		pisak = to_string(czasomierz / 3600);
+		pisak += ":";
+		if (czasomierz / 60 < 10)
+		{
+			pisak += "0";
+			pisak += to_string(czasomierz / 60);
+		}
+		else
+		{
+			pisak += to_string(czasomierz / 60);
+		}
+		pisak += ":";
+		if (czasomierz % 60 < 10)
+		{
+			pisak += "0";
+			pisak += to_string(czasomierz%60);
+		}
+		else
+		{
+			pisak += to_string(czasomierz%60);
+		}
+			
+		licznik_czasu.setString(pisak);
+
+		pisak = "Pts: ";
+		pisak += to_string(gracz.dorobek());
+		licznik_pkt.setString(pisak);
+
+		pisak = "Lvl: ";
+		pisak += to_string(kolejne_ulepszenia);
+		licznik_ulepszen.setString(pisak);
+
+		okno.draw(licznik_czasu);
+		okno.draw(licznik_pkt);
+		okno.draw(licznik_ulepszen);
 
 ///////////////////////////
 ////WYSWIETLENIE OKNA/////
@@ -624,7 +700,6 @@ int main()
 		if (gracz.martwy())
 			break;
 
-
 ////////////////////////////
 ////KONIEC PETLI GLOWEJ////
 //////////////////////////		
@@ -635,8 +710,8 @@ int main()
 ///ZAMKNIECIE/////////
 /////////////////////
 	okno.close();
-	cout << gracz.dorobek()<<endl;
 	cout << "YOU LOST" << endl;
-	system("PAUSE");
+	cout << gracz.dorobek() << endl;
+	cin >> trudnosc;
 	return 0;
 }

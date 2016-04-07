@@ -145,7 +145,6 @@
   <ItemGroup>
     <ClInclude Include="Baza.h" />
     <ClInclude Include="Bonus.h" />
-    <ClInclude Include="Zderzacz.h" />
     <ClInclude Include="Gracz.h" />
     <ClInclude Include="Pocisk.h" />
     <ClInclude Include="Wrog.h" />

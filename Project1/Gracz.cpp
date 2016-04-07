@@ -19,6 +19,11 @@ void Gracz::lecz(int ile)
 		zycie = zycie_poczatkowe;
 }
 
+void Gracz::premia()
+{
+	zycie_poczatkowe += zycie_poczatkowe / 10;
+}
+
 int Gracz::dorobek()
 {
 	return zarobek;
@@ -27,6 +32,11 @@ int Gracz::dorobek()
 int Gracz::zdrowie()
 {
 	return zycie;
+}
+
+int Gracz::pojemnosc_zdrowia()
+{
+	return zycie_poczatkowe;
 }
 
 bool Gracz::martwy()

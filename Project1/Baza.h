@@ -4,6 +4,7 @@ class Baza : public Istota
 {
 private:
 	int zycie;
+	int wartosc;
 public:
 	static int liczebnoscBaz;
 	Punkt gdzie();
@@ -16,4 +17,5 @@ public:
 	~Baza();
 	void uderzona(int ile);
 	bool martwa();
+	int lup();
 };

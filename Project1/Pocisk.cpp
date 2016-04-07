@@ -8,6 +8,7 @@
 #define SILA 4
 
 int Pocisk::liczebnoscP = 0;
+int Pocisk::sila = SILA;
 
 void Pocisk::atak(Wrog &cel)
 {
@@ -21,18 +22,13 @@ void Pocisk::atak(Baza & cel)
 
 void Pocisk::premia()
 {
-	sila *= 2;
+	sila++;
 }
 
-void Pocisk::oslabienie()
-{
-	sila /= 2;
-}
 
 Pocisk::Pocisk(Gracz &strzelajacy)
 {
 	liczebnoscP++;
-	sila = SILA;
 	promien = PROM;
 	pozycja = strzelajacy.gdzie();
 	orientacja = strzelajacy.kierunek();
@@ -42,7 +38,6 @@ Pocisk::Pocisk(Gracz &strzelajacy)
 Pocisk::Pocisk(const Pocisk &wzor)
 {
 	liczebnoscP++;
-	sila = wzor.sila;
 	promien = wzor.promien;
 	pozycja = wzor.pozycja;
 	orientacja = wzor.orientacja;

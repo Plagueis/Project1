@@ -11,8 +11,10 @@ public:
 	void uderzony(int ile);
 	void zdobycz(int ile);
 	void lecz(int ile);
+	void premia();
 	int dorobek();
 	int zdrowie();
+	int pojemnosc_zdrowia();
 	bool martwy();
 	Gracz();
 	Gracz(int ile_zycia);

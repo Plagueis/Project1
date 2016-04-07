@@ -59,9 +59,6 @@
     <ClInclude Include="Pocisk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Zderzacz.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Baza.h">
       <Filter>Header Files</Filter>
     </ClInclude>
