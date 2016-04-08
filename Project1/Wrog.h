@@ -1,20 +1,17 @@
 #pragma once
 #include "Istota.h"
+#include "Grozne.h"
+#include "Zabijalne.h"
 class Gracz;
-class Wrog : public Istota
+class Wrog : public Istota, public Grozne, public Zabijalne
 {
 private:
 	
-	int sila;
-	int wartosc;
-	int zycie;
-
+	int punkty;
+	static int liczebnosc;
 public:
-	static int liczebnoscW;
-	void atak(Gracz &cel);
-	void uderzony(int ile);
-	bool martwy();
-	int lup();
+	static int pokaz_ile();
+	
 	Wrog();
 	Wrog(double x, double y);
 	Wrog(Punkt &start);
@@ -22,4 +19,8 @@ public:
 	Wrog(Punkt &start, int trudnosc);
 	Wrog(const Wrog &wzor);
 	~Wrog();
+
+	virtual void uderzenie(int ile);
+	
+	int pokaz_punkty();
 };

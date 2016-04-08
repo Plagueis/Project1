@@ -4,36 +4,41 @@
 
 #define PROM 8
 
-int Bonus::liczebnoscB = 0;
+int Bonus::liczebnosc = 0;
 
-Bonus::Bonus(Punkt start, int moc, int cena)
+int Bonus::pokaz_ile()
 {
-	liczebnoscB++;
+	return liczebnosc;
+}
+
+Bonus::Bonus(Punkt start, int ile, int cena)
+{
+	liczebnosc++;
 	pozycja = start;
-	leczenie = moc;
-	wartosc = cena;
+	moc = ile;
+	punkty = cena;
 	orientacja = 0;
 	predkosc = 0;
 	promien = PROM;
 }
 
-Bonus::Bonus(double x, double y, int moc, int cena)
+Bonus::Bonus(double x, double y, int ile, int cena)
 {
-	liczebnoscB++;
+	liczebnosc++;
 	Punkt start(x, y);
 	pozycja = start;
-	leczenie = moc;
-	wartosc = cena;
+	moc = ile;
+	punkty = cena;
 	orientacja = 0;
 	predkosc = 0;
 	promien = PROM;
 }
 Bonus::Bonus(const Bonus &wzor)
 {
-	liczebnoscB++;
+	liczebnosc++;
 	pozycja = wzor.pozycja;
-	leczenie = wzor.leczenie;
-	wartosc = wzor.wartosc;
+	moc = wzor.moc;
+	punkty = wzor.punkty;
 	orientacja = 0;
 	predkosc = 0;
 	promien = wzor.promien;
@@ -41,16 +46,16 @@ Bonus::Bonus(const Bonus &wzor)
 
 Bonus::~Bonus()
 {
-	liczebnoscB--;
+	liczebnosc--;
 }
 
-int Bonus::moc()
+int Bonus::pokaz_moc()
 {
-	return leczenie;
+	return moc;
 }
 
-int Bonus::lup()
+int Bonus::pokaz_punkty()
 {
-	return wartosc;
+	return punkty;
 }
 

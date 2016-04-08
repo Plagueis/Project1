@@ -39,6 +39,12 @@
     <ClCompile Include="Baza.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Zabijalne.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Grozne.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Punkt.h">
@@ -60,6 +66,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Baza.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grozne.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zabijalne.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

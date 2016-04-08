@@ -33,17 +33,17 @@ void Istota::popchnij(double dystans)
 	pozycja.przesun(ileX, -ileY);
 }
 
-Punkt Istota::gdzie()
+Punkt Istota::pokaz_pozycje()
 {
 	return pozycja;
 }
 
-int Istota::rozmiar()
+int Istota::pokaz_promien()
 {
 	return promien;
 }
 
-double Istota::kierunek()
+double Istota::pokaz_orientacje()
 {
 	return orientacja;
 }
@@ -122,9 +122,9 @@ void Istota::zorientuj(Punkt &cel)
 
 }
 
-bool Istota::kontakt(Istota &cel)
+bool Istota::w_kontakcie_z(Istota &cel)
 {
-	if (pozycja.odleglosc(cel.pozycja) > promien + cel.rozmiar())
+	if (pozycja.odleglosc(cel.pozycja) > promien + cel.pokaz_promien())
 	{
 		return false;
 	}
@@ -145,27 +145,24 @@ void Istota::ustaw(double x, double y)
 	Punkt miejsce(x, y);
 	pozycja = miejsce;
 }
-//aaaa
-void Istota::odsun(Istota &cel)
-{
-	Istota nasza = *this;
-	if (nasza.kontakt(cel))
-	{
-		double ile = double((promien + cel.rozmiar())) - pozycja.odleglosc(cel.pozycja);
-		
-		double pierwotnie = nasza.kierunek();
-		nasza.zorientuj(cel.gdzie());
-		nasza.obroc(180);
-		nasza.popchnij(ile/2);
-		nasza.zorientuj(pierwotnie);
 
-		pierwotnie = cel.kierunek();
-		cel.zorientuj(nasza.gdzie());
+void Istota::rozsun(Istota &cel)
+{
+	if (this->w_kontakcie_z(cel))
+	{
+		double ile = double((promien + cel.pokaz_promien())) - pozycja.odleglosc(cel.pozycja);
+		
+		double pierwotnie = this->pokaz_orientacje();
+		this->zorientuj(cel.pokaz_pozycje());
+		this->obroc(180);
+		this->popchnij(ile/2);
+		this->zorientuj(pierwotnie);
+
+		pierwotnie = cel.pokaz_orientacje();
+		cel.zorientuj(this->pokaz_pozycje());
 		cel.obroc(180);
 		cel.popchnij(ile / 2);
 		cel.zorientuj(pierwotnie);
-
-		*this = nasza;
 
 
 	}

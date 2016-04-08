@@ -2,50 +2,42 @@
 #include "Wrog.h"
 #include "Gracz.h"
 #include "Baza.h"
+#include "Grozne.h"
 
 #define PRED 6
 #define PROM 3
-#define SILA 4
 
-int Pocisk::liczebnoscP = 0;
-int Pocisk::sila = SILA;
+int Pocisk::liczebnosc = 0;
 
-void Pocisk::atak(Wrog &cel)
+
+
+int Pocisk::pokaz_ile()
 {
-	cel.uderzony(sila);
+	return liczebnosc;
 }
-
-void Pocisk::atak(Baza & cel)
-{
-	cel.uderzona(sila);
-}
-
-void Pocisk::premia()
-{
-	sila++;
-}
-
 
 Pocisk::Pocisk(Gracz &strzelajacy)
 {
-	liczebnoscP++;
+	liczebnosc++;
 	promien = PROM;
-	pozycja = strzelajacy.gdzie();
-	orientacja = strzelajacy.kierunek();
+	pozycja = strzelajacy.pokaz_pozycje();
+	orientacja = strzelajacy.pokaz_orientacje();
 	predkosc = PRED;
+	sila = strzelajacy.pokaz_sile();
 }
 
 Pocisk::Pocisk(const Pocisk &wzor)
 {
-	liczebnoscP++;
+	liczebnosc++;
 	promien = wzor.promien;
 	pozycja = wzor.pozycja;
 	orientacja = wzor.orientacja;
 	predkosc = wzor.predkosc;
+	sila = wzor.sila;
 }
 
 
 Pocisk::~Pocisk()
 {
-	liczebnoscP--;
+	liczebnosc--;
 }

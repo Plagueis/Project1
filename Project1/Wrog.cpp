@@ -7,37 +7,29 @@
 #define ZYCIE 4
 #define WART 10
 
-int Wrog::liczebnoscW = 0;
+int Wrog::liczebnosc = 0;
 
 
-void Wrog::atak(Gracz &cel)
-{
-	cel.uderzony(sila);
-}
-
-void Wrog::uderzony(int ile)
+void Wrog::uderzenie(int ile)
 {
 	zycie -= ile;
 }
 
-bool Wrog::martwy()
+int Wrog::pokaz_punkty()
 {
-	if (zycie > 0)
-		return false;
-	else
-		return true;
+	return punkty;
 }
 
-int Wrog::lup()
+int Wrog::pokaz_ile()
 {
-	return wartosc;
+	return liczebnosc;
 }
 
 Wrog::Wrog()
 {
-	liczebnoscW++;
+	liczebnosc++;
 	sila = SILA;
-	wartosc = WART;
+	punkty = WART;
 	zycie = ZYCIE;
 	promien = PROM;
 	Punkt start(promien, promien);
@@ -48,9 +40,9 @@ Wrog::Wrog()
 
 Wrog::Wrog(double x, double y)
 {
-	liczebnoscW++;
+	liczebnosc++;
 	sila = SILA;
-	wartosc = WART;
+	punkty = WART;
 	zycie = ZYCIE;
 	promien = PROM;
 	Punkt start(x, y);
@@ -61,9 +53,9 @@ Wrog::Wrog(double x, double y)
 
 Wrog::Wrog(Punkt &start)
 {
-	liczebnoscW++;
+	liczebnosc++;
 	sila = SILA;
-	wartosc = WART;
+	punkty = WART;
 	zycie = ZYCIE;
 	promien = PROM;
 	pozycja = start;
@@ -73,10 +65,10 @@ Wrog::Wrog(Punkt &start)
 
 Wrog::Wrog(double x, double y, int trudnosc)
 {
-	liczebnoscW++;
+	liczebnosc++;
 	sila = SILA;
-	wartosc = WART+trudnosc;
-	zycie = ZYCIE+0.5*trudnosc;
+	punkty = WART+trudnosc;
+	zycie = int(ZYCIE+0.5*trudnosc);
 	promien = PROM;
 	Punkt start(x, y);
 	pozycja = start;
@@ -86,10 +78,10 @@ Wrog::Wrog(double x, double y, int trudnosc)
 
 Wrog::Wrog(Punkt & start, int trudnosc)
 {
-	liczebnoscW++;
+	liczebnosc++;
 	sila = SILA;
-	wartosc = WART+trudnosc;
-	zycie = ZYCIE+0.5*trudnosc;
+	punkty = WART+trudnosc;
+	zycie = int(ZYCIE+0.5*trudnosc);
 	promien = PROM;
 	pozycja = start;
 	orientacja = 0;
@@ -99,9 +91,9 @@ Wrog::Wrog(Punkt & start, int trudnosc)
 Wrog::Wrog(const Wrog & wzor)
 {
 
-	liczebnoscW++;
+	liczebnosc++;
 	sila = wzor.sila;
-	wartosc = wzor.wartosc;
+	punkty = wzor.punkty;
 	zycie = wzor.zycie;
 	promien = wzor.promien;
 	pozycja = wzor.pozycja;
@@ -112,6 +104,6 @@ Wrog::Wrog(const Wrog & wzor)
 
 Wrog::~Wrog()
 {
-	liczebnoscW--;
+	liczebnosc--;
 }
 

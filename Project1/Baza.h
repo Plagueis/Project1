@@ -1,21 +1,25 @@
 #pragma once
 #include "Istota.h"
-class Baza : public Istota
+#include "Zabijalne.h"
+class Baza : public Istota, public Zabijalne
 {
 private:
-	int zycie;
-	int wartosc;
+
+	int punkty;
+	static int liczebnosc;
+
 public:
-	static int liczebnoscBaz;
-	Punkt gdzie();
-	int rozmiar();
+	static int pokaz_ile();
+	
+
 	Baza(const Punkt &lokalizacja);
 	Baza(double x, double y);
 	Baza(const Punkt & lokalizacja, int trudnosc);
 	Baza(double x, double y, int trudnosc);
 	Baza(const Baza &wzor);
 	~Baza();
-	void uderzona(int ile);
-	bool martwa();
-	int lup();
+
+	virtual void uderzenie(int ile);
+
+	int pokaz_punkty();
 };

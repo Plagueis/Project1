@@ -4,24 +4,21 @@
 #define ZYCIE 20
 #define WART 20
 
-int Baza::liczebnoscBaz = 0;
+int Baza::liczebnosc = 0;
 
-Punkt Baza::gdzie()
-{
-	return pozycja;
-}
 
-int Baza::rozmiar()
+
+int Baza::pokaz_ile()
 {
-	return promien;
+	return liczebnosc;
 }
 
 Baza::Baza(const Punkt & lokalizacja)
 {
-	liczebnoscBaz++;
+	liczebnosc++;
 	pozycja = lokalizacja;
 	zycie = ZYCIE;
-	wartosc = WART;
+	punkty = WART;
 	orientacja = 0;
 	predkosc = 0;
 	promien = PROM;
@@ -29,11 +26,11 @@ Baza::Baza(const Punkt & lokalizacja)
 
 Baza::Baza(double x, double y)
 {
-	liczebnoscBaz++;
+	liczebnosc++;
 	Punkt start(x, y);
 	pozycja = start;
 	zycie = ZYCIE;
-	wartosc = WART;
+	punkty = WART;
 	orientacja = 0;
 	predkosc = 0;
 	promien = PROM;
@@ -41,10 +38,10 @@ Baza::Baza(double x, double y)
 
 Baza::Baza(const Punkt & lokalizacja, int trudnosc)
 {
-	liczebnoscBaz++;
+	liczebnosc++;
 	pozycja = lokalizacja;
 	zycie = ZYCIE+trudnosc;
-	wartosc = WART+trudnosc*2;
+	punkty = WART+trudnosc*2;
 	orientacja = 0;
 	predkosc = 0;
 	promien = PROM;
@@ -52,11 +49,11 @@ Baza::Baza(const Punkt & lokalizacja, int trudnosc)
 
 Baza::Baza(double x, double y, int trudnosc)
 {
-	liczebnoscBaz++;
+	liczebnosc++;
 	Punkt start(x, y);
 	pozycja = start;
 	zycie = ZYCIE+trudnosc;
-	wartosc = WART*2;
+	punkty = WART*2;
 	orientacja = 0;
 	predkosc = 0;
 	promien = PROM;
@@ -64,10 +61,10 @@ Baza::Baza(double x, double y, int trudnosc)
 
 Baza::Baza(const Baza & wzor)
 {
-	liczebnoscBaz++;
+	liczebnosc++;
 	pozycja = wzor.pozycja;
 	zycie = wzor.zycie;
-	wartosc = wzor.wartosc;
+	punkty = wzor.punkty;
 	orientacja = 0;
 	predkosc = 0;
 	promien = wzor.promien;
@@ -75,10 +72,10 @@ Baza::Baza(const Baza & wzor)
 
 Baza::~Baza()
 {
-	liczebnoscBaz--;
+	liczebnosc--;
 }
 
-void Baza::uderzona(int ile)
+void Baza::uderzenie(int ile)
 {
 	int zmniejszenie = ile / 2;
 	zmniejszenie *= promien;
@@ -87,15 +84,7 @@ void Baza::uderzona(int ile)
 	zycie -= ile;
 }
 
-bool Baza::martwa()
+int Baza::pokaz_punkty()
 {
-	if (zycie > 0)
-		return false;
-	else
-		return true;
-}
-
-int Baza::lup()
-{
-	return wartosc;
+	return punkty;
 }

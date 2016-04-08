@@ -1,72 +1,75 @@
 #include "Gracz.h"
 
 #define PRED 6
+#define SILA 4
 
-void Gracz::uderzony(int ile)
+
+void Gracz::dodaj_punkty(int ile)
+{
+	punkty += ile;
+}
+
+void Gracz::przywroc_zycie(int ile)
+{
+	zycie += ile;
+	if (zycie > limit_zycia)
+		zycie = limit_zycia;
+}
+
+void Gracz::awans(int ktory)
+{
+	if(ktory<7)
+		limit_zycia += limit_zycia / 10;
+	sila++;
+}
+
+void Gracz::uderzenie(int ile)
 {
 	zycie -= ile;
 }
 
-void Gracz::zdobycz(int ile)
+int Gracz::pokaz_punkty()
 {
-	zarobek += ile;
+	return punkty;
 }
 
-void Gracz::lecz(int ile)
-{
-	zycie += ile;
-	if (zycie > zycie_poczatkowe)
-		zycie = zycie_poczatkowe;
-}
-
-void Gracz::premia()
-{
-	zycie_poczatkowe += zycie_poczatkowe / 10;
-}
-
-int Gracz::dorobek()
-{
-	return zarobek;
-}
-
-int Gracz::zdrowie()
+int Gracz::pokaz_zycie()
 {
 	return zycie;
 }
 
-int Gracz::pojemnosc_zdrowia()
+int Gracz::pokaz_limit_zycia()
 {
-	return zycie_poczatkowe;
+	return limit_zycia;
 }
 
-bool Gracz::martwy()
+int Gracz::pokaz_sile()
 {
-	if (zycie > 0)
-		return false;
-	else
-		return true;
+	return sila;
 }
 
 Gracz::Gracz()
 {
-	zycie_poczatkowe = 1000;
+	limit_zycia = 1000;
 	zycie = 1000;
 	promien = 10;
-	zarobek = 0;
+	punkty = 0;
 	Punkt start(promien, promien);
 	pozycja = start;
 	orientacja = 0;
 	predkosc = PRED;
+	sila = SILA;
 }
 
 Gracz::Gracz(int ile_zycia)
 {
-	zycie_poczatkowe = ile_zycia;
+	limit_zycia = ile_zycia;
 	zycie = ile_zycia;
 	promien = 10;
-	zarobek = 0;
+	punkty = 0;
 	Punkt start(promien, promien);
 	pozycja = start;
 	orientacja = 0;
 	predkosc = PRED;
+	sila = SILA;
 }

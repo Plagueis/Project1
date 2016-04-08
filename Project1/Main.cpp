@@ -98,7 +98,7 @@ int main()
 	for (int i = 0; i < POCZ_ILOSC_BAZ; i++)
 	{
 		armia.push_back(*nowy_wrog);
-		armia[i].ustaw(baza[i].gdzie());
+		armia[i].ustaw(baza[i].pokaz_pozycje());
 	}
 	delete nowy_wrog;
 		
@@ -115,7 +115,7 @@ int main()
 ///////////////////////////////////
 /////STWORZENIE MODELU GRACZA/////
 /////////////////////////////////
-	sf::CircleShape Gr(float(gracz.rozmiar()), 3);
+	sf::CircleShape Gr(float(gracz.pokaz_promien()), 3);
 	Gr.setOrigin(10, 10);
 	Gr.setFillColor(sf::Color::Green);
 
@@ -150,8 +150,8 @@ int main()
 ////////////////////////////////////
 ///////STWORZENIE MODELU PANELU////
 //////////////////////////////////
-	sf::RectangleShape zielony(sf::Vector2f(gracz.pojemnosc_zdrowia()/4, PANEL/2));
-	sf::RectangleShape czerwony(sf::Vector2f(gracz.zdrowie()/4, PANEL/2));
+	sf::RectangleShape zielony(sf::Vector2f(float(gracz.pokaz_limit_zycia()/4), float(PANEL/2)));
+	sf::RectangleShape czerwony(sf::Vector2f(float(gracz.pokaz_zycie()/4), float(PANEL/2)));
 	sf::RectangleShape pasek(sf::Vector2f(SZEROKOSC, PANEL));
 	zielony.setPosition(0, WYSOKOSC+ PANEL / 2);
 	czerwony.setPosition(0, WYSOKOSC+ PANEL / 2);
@@ -217,7 +217,7 @@ int main()
 		int qwerty = 0;
 		if (taktowanie_baz != int(round(czas.asSeconds()*F_BAZA)))
 		{
-			if (Baza::liczebnoscBaz <= MAX_BAZ)
+			if (Baza::pokaz_ile() <= MAX_BAZ)
 			{
 				nowa_baza = new Baza(rand() % SZEROKOSC, rand() % WYSOKOSC, trudnosc);
 				baza.push_back(*nowa_baza);
@@ -233,7 +233,7 @@ int main()
 
 		if (taktowanie_bonusow != int(round(czas.asSeconds()*F_BONUS)))
 		{
-			if (Bonus::liczebnoscB < 3)
+			if (Bonus::pokaz_ile() < 3)
 			{
 				nowy_bonus = new Bonus(rand() % SZEROKOSC, rand() % WYSOKOSC, (rand()%(MAX_BONUS-MIN_BONUS))+MIN_BONUS, rand()%(trudnosc*100));
 				apteczka.push_back(*nowy_bonus);
@@ -246,15 +246,15 @@ int main()
 /////////////////////////////////
 ///GENEROWANIE NOWEGO WROGA/////
 ///////////////////////////////
-		if (Baza::liczebnoscBaz)
+		if (Baza::pokaz_ile())
 		{
-			if(taktowanie_wrogow != int(round(czas.asSeconds()*(F_WROG+0.1*Baza::liczebnoscBaz))))
+			if(taktowanie_wrogow != int(round(czas.asSeconds()*(F_WROG+0.1*Baza::pokaz_ile()))))
 			{
-				nowy_wrog = new Wrog(baza[rand() % Baza::liczebnoscBaz].gdzie(), trudnosc);
+				nowy_wrog = new Wrog(baza[rand() % Baza::pokaz_ile()].pokaz_pozycje(), trudnosc);
 				armia.push_back(*nowy_wrog);
 				delete nowy_wrog;
 			}
-			taktowanie_wrogow = int(round(czas.asSeconds()*(F_WROG+0.1*Baza::liczebnoscBaz)));
+			taktowanie_wrogow = int(round(czas.asSeconds()*(F_WROG+0.1*Baza::pokaz_ile())));
 		}
 			
 
@@ -343,14 +343,14 @@ int main()
 /////////////////////
 ///RUCH WROGOW//////
 ///////////////////
-		if (Wrog::liczebnoscW)
+		if (Wrog::pokaz_ile())
 		{
-			for (int i = 0; i < Wrog::liczebnoscW; i++)
+			for (int i = 0; i < Wrog::pokaz_ile(); i++)
 				{
-					armia[i].zorientuj(gracz.gdzie());
+					armia[i].zorientuj(gracz.pokaz_pozycje());
 					armia[i].rusz(dt.asSeconds() * 100);
 
-					if (armia[i].kontakt(gracz))
+					if (armia[i].w_kontakcie_z(gracz))
 						{
 							armia[i].atak(gracz);
 							Gr.setFillColor(sf::Color::Red);
@@ -362,9 +362,9 @@ int main()
 /////////////////////////
 ///RUCH POCISKOW////////
 ///////////////////////
-		if (Pocisk::liczebnoscP)
+		if (Pocisk::pokaz_ile())
 		{
-			for (int i = 0; i < Pocisk::liczebnoscP; i++)
+			for (int i = 0; i < Pocisk::pokaz_ile(); i++)
 				seria[i].rusz(dt.asSeconds() * 100);
 		}
 
@@ -384,21 +384,21 @@ int main()
 ////////////////////////////////////
 /////ZAMKNIECIE GRACZA W PLANSZY///
 //////////////////////////////////
-		if (gracz.gdzie().X() < gracz.rozmiar())
+		if (gracz.pokaz_pozycje().X() < gracz.pokaz_promien())
 		{
-			gracz.ustaw(gracz.rozmiar(), gracz.gdzie().Y());
+			gracz.ustaw(gracz.pokaz_promien(), gracz.pokaz_pozycje().Y());
 		}
-		if (gracz.gdzie().Y() < gracz.rozmiar())
+		if (gracz.pokaz_pozycje().Y() < gracz.pokaz_promien())
 		{
-			gracz.ustaw(gracz.gdzie().X(), gracz.rozmiar());
+			gracz.ustaw(gracz.pokaz_pozycje().X(), gracz.pokaz_promien());
 		}
-		if (gracz.gdzie().X() > SZEROKOSC - gracz.rozmiar())
+		if (gracz.pokaz_pozycje().X() > SZEROKOSC - gracz.pokaz_promien())
 		{
-			gracz.ustaw(SZEROKOSC - gracz.rozmiar(), gracz.gdzie().Y());
+			gracz.ustaw(SZEROKOSC - gracz.pokaz_promien(), gracz.pokaz_pozycje().Y());
 		}
-		if (gracz.gdzie().Y() > WYSOKOSC-gracz.rozmiar())
+		if (gracz.pokaz_pozycje().Y() > WYSOKOSC-gracz.pokaz_promien())
 		{
-			gracz.ustaw(gracz.gdzie().X(), WYSOKOSC - gracz.rozmiar());
+			gracz.ustaw(gracz.pokaz_pozycje().X(), WYSOKOSC - gracz.pokaz_promien());
 		}
 
 
@@ -406,16 +406,16 @@ int main()
 //////////////////////////////////
 //SERIA OPERACJI NA WROGACH//////
 ////////////////////////////////
-		if (Wrog::liczebnoscW)
+		if (Wrog::pokaz_ile())
 		{
 			//////////////////////////
 			////POROZSUWANIE WROGOW///
 			//////////////////////////
-			for (int i = 0; i < Wrog::liczebnoscW; i++)
+			for (int i = 0; i < Wrog::pokaz_ile(); i++)
 			{
-				for (int j = i + 1; j < Wrog::liczebnoscW; j++)
+				for (int j = i + 1; j < Wrog::pokaz_ile(); j++)
 				{
-					armia[i].odsun(armia[j]);
+					armia[i].rozsun(armia[j]);
 				}
 
 			}
@@ -423,9 +423,9 @@ int main()
 			//////////////////////////////
 			//WROGOWIE ATAKUJA GRACZA/////
 			//////////////////////////////
-			for (int i = 0; i < Wrog::liczebnoscW; i++)
+			for (int i = 0; i < Wrog::pokaz_ile(); i++)
 			{
-				if (armia[i].kontakt(gracz))
+				if (armia[i].w_kontakcie_z(gracz))
 				{
 					armia[i].atak(gracz);
 					Gr.setFillColor(sf::Color::Red);
@@ -436,27 +436,27 @@ int main()
 			/////////////////////////////////
 			////WROGOWIE PRZYJMUJA POCISKI///
 			/////////////////////////////////
-			for (int i = 0; i < Wrog::liczebnoscW; i++)
+			for (int i = 0; i < Wrog::pokaz_ile(); i++)
 			{
 
-				for (int j = 0; j < Pocisk::liczebnoscP; j++)
+				for (int j = 0; j < Pocisk::pokaz_ile(); j++)
 				{
-					if(Wrog::liczebnoscW && Pocisk::liczebnoscP)
+					if(Wrog::pokaz_ile() && Pocisk::pokaz_ile())
 					{
-						if(armia[i].kontakt(seria[j]))
+						if(armia[i].w_kontakcie_z(seria[j]))
 							{
 								seria[j].atak(armia[i]);
 								seria.erase(seria.begin() + j);
 								
 								if (armia[i].martwy())
 								{
-									gracz.zdobycz(armia[i].lup());
+									gracz.dodaj_punkty(armia[i].pokaz_punkty());
 									armia.erase(armia.begin() + i);
 								}
 									
 								
 								
-								if (Wrog::liczebnoscW && Pocisk::liczebnoscP)
+								if (Wrog::pokaz_ile() && Pocisk::pokaz_ile())
 								{
 									i = 0;
 									j = 0;
@@ -479,27 +479,27 @@ int main()
 /////////////////////////////////
 ////BAZY PRZYJMUJA POCISKI//////
 ///////////////////////////////
-		for (int i = 0; i < Baza::liczebnoscBaz; i++)
+		for (int i = 0; i < Baza::pokaz_ile(); i++)
 		{
 
-			for (int j = 0; j < Pocisk::liczebnoscP; j++)
+			for (int j = 0; j < Pocisk::pokaz_ile(); j++)
 			{
-				if (Baza::liczebnoscBaz && Pocisk::liczebnoscP)
+				if (Baza::pokaz_ile() && Pocisk::pokaz_ile())
 				{
-					if (baza[i].kontakt(seria[j]))
+					if (baza[i].w_kontakcie_z(seria[j]))
 					{
 						seria[j].atak(baza[i]);
 						seria.erase(seria.begin() + j);
 
-						if (baza[i].martwa())
+						if (baza[i].martwy())
 						{
-							gracz.zdobycz(baza[i].lup());
+							gracz.dodaj_punkty(baza[i].pokaz_punkty());
 							baza.erase(baza.begin() + i);
 						}
 							
 
 
-						if (Baza::liczebnoscBaz && Pocisk::liczebnoscP)
+						if (Baza::pokaz_ile() && Pocisk::pokaz_ile())
 						{
 							i = 0;
 							j = 0;
@@ -520,12 +520,12 @@ int main()
 /////////////////////////////
 //GRACZ ZBIERA BONUSY///////
 ///////////////////////////
-		for (int i = 0; i < Bonus::liczebnoscB; i++)
+		for (int i = 0; i < Bonus::pokaz_ile(); i++)
 		{
-			if (apteczka[i].kontakt(gracz))
+			if (apteczka[i].w_kontakcie_z(gracz))
 			{
-				gracz.lecz(apteczka[i].moc());
-				gracz.zdobycz(apteczka[i].lup());
+				gracz.przywroc_zycie(apteczka[i].pokaz_moc());
+				gracz.dodaj_punkty(apteczka[i].pokaz_punkty());
 				apteczka.erase(apteczka.begin() + i);
 			}
 		}
@@ -533,23 +533,23 @@ int main()
 ///////////////////////////////////
 //USUNIECIE POCISKOW POZA MAPA/////
 ///////////////////////////////////
-		if(Pocisk::liczebnoscP)
+		if(Pocisk::pokaz_ile())
 		{
-			for (int j = 0; j < Pocisk::liczebnoscP; j++)
+			for (int j = 0; j < Pocisk::pokaz_ile(); j++)
 			{
-				if (seria[j].gdzie().X() < 0)
+				if (seria[j].pokaz_pozycje().X() < 0)
 				{
 					seria.erase(seria.begin() + j);
 				}
-				else if (seria[j].gdzie().Y() < 0)
+				else if (seria[j].pokaz_pozycje().Y() < 0)
 				{
 					seria.erase(seria.begin() + j);
 				}
-				else if (seria[j].gdzie().X() > SZEROKOSC)
+				else if (seria[j].pokaz_pozycje().X() > SZEROKOSC)
 				{
 					seria.erase(seria.begin() + j);
 				}
-				else if (seria[j].gdzie().Y() > WYSOKOSC)
+				else if (seria[j].pokaz_pozycje().Y() > WYSOKOSC)
 				{
 					seria.erase(seria.begin() + j);
 				}
@@ -561,11 +561,9 @@ int main()
 //////////////////////////////
 //PRZYDZIELENIE ULEPSZENIA///
 ////////////////////////////
-		if (gracz.dorobek() > 5000 * kolejne_ulepszenia + kolejne_ulepszenia * kolejne_ulepszenia * 200)
+		if (gracz.pokaz_punkty() > 5000 * kolejne_ulepszenia + kolejne_ulepszenia * kolejne_ulepszenia * 200)
 		{
-			Pocisk::premia();
-			if(kolejne_ulepszenia<7)
-				gracz.premia();
+			gracz.awans(kolejne_ulepszenia);
 			kolejne_ulepszenia++;
 		}
 		
@@ -579,12 +577,12 @@ int main()
 ////////////////////////
 ///RYSOWANIE BAZ///////
 //////////////////////
-			for (int i = 0; i < Baza::liczebnoscBaz; i++)
+			for (int i = 0; i < Baza::pokaz_ile(); i++)
 			{
 				
-				Ba.setPosition(float(baza[i].gdzie().X()), float(baza[i].gdzie().Y()));
-				Ba.setOrigin(float(baza[i].rozmiar()), float(baza[i].rozmiar()));
-				Ba.setRadius(float(baza[i].rozmiar()));
+				Ba.setPosition(float(baza[i].pokaz_pozycje().X()), float(baza[i].pokaz_pozycje().Y()));
+				Ba.setOrigin(float(baza[i].pokaz_promien()), float(baza[i].pokaz_promien()));
+				Ba.setRadius(float(baza[i].pokaz_promien()));
 				Ba.setFillColor(sf::Color::Yellow);
 				okno.draw(Ba);
 			}
@@ -592,11 +590,11 @@ int main()
 ///////////////////////////
 ///RYSOWANIE BONUSOW//////
 /////////////////////////
-			if (Bonus::liczebnoscB)
+			if (Bonus::pokaz_ile())
 			{
-				for (int i = 0; i < Bonus::liczebnoscB; i++)
+				for (int i = 0; i < Bonus::pokaz_ile(); i++)
 				{
-					Bo.setPosition(float(apteczka[i].gdzie().X()), float(apteczka[i].gdzie().Y()));
+					Bo.setPosition(float(apteczka[i].pokaz_pozycje().X()), float(apteczka[i].pokaz_pozycje().Y()));
 					okno.draw(Bo);
 				}
 			}
@@ -605,12 +603,12 @@ int main()
 ///////////////////////////
 ///RYSOWANIE WROGOW///////
 /////////////////////////
-		if (Wrog::liczebnoscW)
+		if (Wrog::pokaz_ile())
 		{
-			for (int i = 0; i < Wrog::liczebnoscW; i++)
+			for (int i = 0; i < Wrog::pokaz_ile(); i++)
 			{
-				Wr.setPosition(float(armia[i].gdzie().X()), float(armia[i].gdzie().Y()));
-				Wr.setRotation(float(armia[i].kierunek()));
+				Wr.setPosition(float(armia[i].pokaz_pozycje().X()), float(armia[i].pokaz_pozycje().Y()));
+				Wr.setRotation(float(armia[i].pokaz_orientacje()));
 				okno.draw(Wr);
 			}
 		}
@@ -618,12 +616,12 @@ int main()
 ////////////////////////////
 //RYSOWANIE POCISKOW///////
 //////////////////////////	
-		if (Pocisk::liczebnoscP)
+		if (Pocisk::pokaz_ile())
 		{
-			for (int i = 0; i < Pocisk::liczebnoscP; i++)
+			for (int i = 0; i < Pocisk::pokaz_ile(); i++)
 			{
-				Po.setPosition(float(seria[i].gdzie().X()), float(seria[i].gdzie().Y()));
-				Po.setRotation(float(seria[i].kierunek()));
+				Po.setPosition(float(seria[i].pokaz_pozycje().X()), float(seria[i].pokaz_pozycje().Y()));
+				Po.setRotation(float(seria[i].pokaz_orientacje()));
 				okno.draw(Po);
 			}
 		}
@@ -631,16 +629,16 @@ int main()
 ///////////////////////////
 //RYSOWANIE GRACZA////////
 /////////////////////////
-		Gr.setPosition(float(gracz.gdzie().X()), float(gracz.gdzie().Y()));
-		Gr.setRotation(float(gracz.kierunek()));
+		Gr.setPosition(float(gracz.pokaz_pozycje().X()), float(gracz.pokaz_pozycje().Y()));
+		Gr.setRotation(float(gracz.pokaz_orientacje()));
 		okno.draw(Gr);
 
 
 /////////////////////////
 ////RYSOWANIE PASKA/////
 ///////////////////////
-		czerwony.setSize(sf::Vector2f(gracz.pojemnosc_zdrowia()/4, PANEL/2));
-		zielony.setSize(sf::Vector2f(gracz.zdrowie()/4, PANEL/2));
+		czerwony.setSize(sf::Vector2f(float(gracz.pokaz_limit_zycia()/4), float(PANEL/2)));
+		zielony.setSize(sf::Vector2f(float(gracz.pokaz_zycie()/4), float(PANEL/2)));
 		zielony.setPosition(0, WYSOKOSC+ PANEL / 2);
 		czerwony.setPosition(0, WYSOKOSC+ PANEL / 2);
 		pasek.setPosition(0, WYSOKOSC);
@@ -652,7 +650,7 @@ int main()
 ///RYSOWANIE NAPISOW//
 /////////////////////
 
-		czasomierz = zegar.getElapsedTime().asSeconds();
+		czasomierz = int(zegar.getElapsedTime().asSeconds());
 		pisak = to_string(czasomierz / 3600);
 		pisak += ":";
 		if (czasomierz / 60 < 10)
@@ -678,7 +676,7 @@ int main()
 		licznik_czasu.setString(pisak);
 
 		pisak = "Pts: ";
-		pisak += to_string(gracz.dorobek());
+		pisak += to_string(gracz.pokaz_punkty());
 		licznik_pkt.setString(pisak);
 
 		pisak = "Lvl: ";
@@ -711,7 +709,6 @@ int main()
 /////////////////////
 	okno.close();
 	cout << "YOU LOST" << endl;
-	cout << gracz.dorobek() << endl;
-	cin >> trudnosc;
+	cout << gracz.pokaz_punkty() << endl;
 	return 0;
 }

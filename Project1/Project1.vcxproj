@@ -106,6 +106,7 @@
     <Link>
       <AdditionalDependencies>sfml-graphics-d.lib; sfml-window-d.lib; sfml-system-d.lib; opengl32.lib; freetype.lib; jpeg.lib; winmm.lib; gdi32.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\SFML\SFML-2.3.2\lib</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>Debug</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -128,12 +129,14 @@
     <Link>
       <AdditionalDependencies>sfml-graphics.lib; sfml-window.lib; sfml-system.lib; kernel32.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\SFML\SFML-2.3.2\lib</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>Debug</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Baza.cpp" />
     <ClCompile Include="Bonus.cpp" />
     <ClCompile Include="Gracz.cpp" />
+    <ClCompile Include="Grozne.cpp" />
     <ClCompile Include="Istota.cpp" />
     <ClCompile Include="Pocisk.cpp" />
     <ClCompile Include="Punkt.cpp" />
@@ -141,15 +144,18 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Bartek\Desktop\Projekty\SFML\SFML-2.3.2\include</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="Wrog.cpp" />
+    <ClCompile Include="Zabijalne.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Baza.h" />
     <ClInclude Include="Bonus.h" />
     <ClInclude Include="Gracz.h" />
+    <ClInclude Include="Grozne.h" />
     <ClInclude Include="Pocisk.h" />
     <ClInclude Include="Wrog.h" />
     <ClInclude Include="Istota.h" />
     <ClInclude Include="Punkt.h" />
+    <ClInclude Include="Zabijalne.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

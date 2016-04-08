@@ -4,14 +4,17 @@
 class Bonus : public Istota
 {
 private:
-	int leczenie;
-	int wartosc;
+	int moc;
+	int punkty;
+	static int liczebnosc;
 public:
-	static int liczebnoscB;
-	Bonus(Punkt start, int moc, int cena);
-	Bonus(double x, double y, int moc, int cena);
+	static int pokaz_ile();
+
+	Bonus(Punkt start, int ile, int cena);
+	Bonus(double x, double y, int ile, int cena);
 	Bonus(const Bonus & wzor);
 	~Bonus();
-	int moc();
-	int lup();
+
+	int pokaz_moc();
+	int pokaz_punkty();
 };
