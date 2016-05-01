@@ -8,6 +8,7 @@ private:
 	int punkty;
 	static int liczebnosc;
 public:
+	///Zwrocenie ilosci aktualnie istniejacych bonusow
 	static int pokaz_ile();
 
 	Bonus(Punkt start, int ile, int cena);
@@ -15,6 +16,8 @@ public:
 	Bonus(const Bonus & wzor);
 	~Bonus();
 
+	///Zwrocenie mocy
 	int pokaz_moc();
+	///Zwrocenie wartosci punktowej
 	int pokaz_punkty();
 };

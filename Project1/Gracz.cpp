@@ -7,6 +7,11 @@
 void Gracz::dodaj_punkty(int ile)
 {
 	punkty += ile;
+	if (punkty > 5000 * poziom + poziom * poziom * 200)
+	{
+		this->awans(poziom);
+		poziom++;
+	}
 }
 
 void Gracz::przywroc_zycie(int ile)
@@ -48,12 +53,18 @@ int Gracz::pokaz_sile()
 	return sila;
 }
 
+int Gracz::pokaz_poziom()
+{
+	return poziom;
+}
+
 Gracz::Gracz()
 {
 	limit_zycia = 1000;
 	zycie = 1000;
 	promien = 10;
 	punkty = 0;
+	poziom = 1;
 	Punkt start(promien, promien);
 	pozycja = start;
 	orientacja = 0;
@@ -67,6 +78,7 @@ Gracz::Gracz(int ile_zycia)
 	zycie = ile_zycia;
 	promien = 10;
 	punkty = 0;
+	poziom = 1;
 	Punkt start(promien, promien);
 	pozycja = start;
 	orientacja = 0;

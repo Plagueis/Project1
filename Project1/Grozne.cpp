@@ -5,3 +5,7 @@ void Grozne::atak(Zabijalne & cel)
 {
 		cel.uderzenie(sila);
 }
+
+Grozne::~Grozne()
+{
+}

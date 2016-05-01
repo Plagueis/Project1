@@ -48,6 +48,10 @@ double Istota::pokaz_orientacje()
 	return orientacja;
 }
 
+Istota::~Istota()
+{
+}
+
 void Istota::zorientuj(Punkt &cel)
 {
 	Punkt lokalizacja(pozycja);
@@ -165,6 +169,26 @@ void Istota::rozsun(Istota &cel)
 		cel.zorientuj(pierwotnie);
 
 
+	}
+}
+
+void Istota::zamknij_w_prostokacie(int oX, int oY)
+{
+	if (pozycja.X() < promien)
+	{
+		this->ustaw(promien, pozycja.Y());
+	}
+	if (pozycja.Y() < promien)
+	{
+		this->ustaw(pozycja.X(), promien);
+	}
+	if (pozycja.X() > oX - promien)
+	{
+		this->ustaw(oX - promien, pozycja.Y());
+	}
+	if (pozycja.Y() > oY - promien)
+	{
+		this->ustaw(pozycja.X(), oY - promien);
 	}
 }
 

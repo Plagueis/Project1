@@ -14,6 +14,9 @@
 
 using namespace std;
 
+//algorytm lataj¹cych ptaków - poszukaæ
+//wzorce projektowe - poszukaæ
+
 ///////////////////////////////////////////////
 //USTANOWIENIE PODSTAWOWYCH PARAMETROW GRY////
 /////////////////////////////////////////////
@@ -384,22 +387,7 @@ int main()
 ////////////////////////////////////
 /////ZAMKNIECIE GRACZA W PLANSZY///
 //////////////////////////////////
-		if (gracz.pokaz_pozycje().X() < gracz.pokaz_promien())
-		{
-			gracz.ustaw(gracz.pokaz_promien(), gracz.pokaz_pozycje().Y());
-		}
-		if (gracz.pokaz_pozycje().Y() < gracz.pokaz_promien())
-		{
-			gracz.ustaw(gracz.pokaz_pozycje().X(), gracz.pokaz_promien());
-		}
-		if (gracz.pokaz_pozycje().X() > SZEROKOSC - gracz.pokaz_promien())
-		{
-			gracz.ustaw(SZEROKOSC - gracz.pokaz_promien(), gracz.pokaz_pozycje().Y());
-		}
-		if (gracz.pokaz_pozycje().Y() > WYSOKOSC-gracz.pokaz_promien())
-		{
-			gracz.ustaw(gracz.pokaz_pozycje().X(), WYSOKOSC - gracz.pokaz_promien());
-		}
+		gracz.zamknij_w_prostokacie(SZEROKOSC, WYSOKOSC);
 
 
 
@@ -557,17 +545,7 @@ int main()
 				
 			}
 		}
-
-//////////////////////////////
-//PRZYDZIELENIE ULEPSZENIA///
-////////////////////////////
-		if (gracz.pokaz_punkty() > 5000 * kolejne_ulepszenia + kolejne_ulepszenia * kolejne_ulepszenia * 200)
-		{
-			gracz.awans(kolejne_ulepszenia);
-			kolejne_ulepszenia++;
-		}
-		
-		
+				
 //////////////////////////
 ///WYCZYSZCZENIE OKNA////
 ////////////////////////		
@@ -680,7 +658,7 @@ int main()
 		licznik_pkt.setString(pisak);
 
 		pisak = "Lvl: ";
-		pisak += to_string(kolejne_ulepszenia);
+		pisak += to_string(gracz.pokaz_poziom());
 		licznik_ulepszen.setString(pisak);
 
 		okno.draw(licznik_czasu);

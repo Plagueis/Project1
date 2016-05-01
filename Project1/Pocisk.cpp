@@ -26,6 +26,8 @@ Pocisk::Pocisk(Gracz &strzelajacy)
 	sila = strzelajacy.pokaz_sile();
 }
 
+
+
 Pocisk::Pocisk(const Pocisk &wzor)
 {
 	liczebnosc++;

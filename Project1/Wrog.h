@@ -10,6 +10,7 @@ private:
 	int punkty;
 	static int liczebnosc;
 public:
+	///Zwrocenie biezacej liczby istniejacych wrogow
 	static int pokaz_ile();
 	
 	Wrog();
@@ -20,7 +21,8 @@ public:
 	Wrog(const Wrog &wzor);
 	~Wrog();
 
+	///Zmniejszenie parametru zycie o zadana wartosc
 	virtual void uderzenie(int ile);
-	
+	///Zwrocenie parametru punkty
 	int pokaz_punkty();
 };

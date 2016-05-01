@@ -1,15 +1,12 @@
-﻿  Gracz.cpp
-  Main.cpp
-Main.cpp(153): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-Main.cpp(154): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-Main.cpp(642): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-Main.cpp(643): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-Main.cpp(655): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+﻿  Baza.cpp
+  Bonus.cpp
+  Gracz.cpp
+  Grozne.cpp
+  Istota.cpp
   Pocisk.cpp
+  Main.cpp
   Wrog.cpp
-Wrog.cpp(79): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-Wrog.cpp(92): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Zabijalne.cpp
   Generating Code...
-  Baza.obj : /DEBUG:FASTLINK is not supported when managed code is present; restarting link with /DEBUG:FULL
   Project1.vcxproj -> C:\Users\Bartek\Documents\Visual Studio 2015\Projects\Project1\Project1\x64\Release\Project1.exe
-  Project1.vcxproj -> C:\Users\Bartek\Documents\Visual Studio 2015\Projects\Project1\Project1\x64\Release\Project1.pdb (Partial PDB)
+  Project1.vcxproj -> C:\Users\Bartek\Documents\Visual Studio 2015\Projects\Project1\Project1\x64\Release\Project1.pdb (Full PDB)

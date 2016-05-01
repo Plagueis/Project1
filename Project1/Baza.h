@@ -9,6 +9,7 @@ private:
 	static int liczebnosc;
 
 public:
+	///Zwrocenie ilosci istniejacych baz
 	static int pokaz_ile();
 	
 
@@ -19,7 +20,8 @@ public:
 	Baza(const Baza &wzor);
 	~Baza();
 
+	///Zmniejszenie ilosci zycia o zadana wartosc
 	virtual void uderzenie(int ile);
-
+	///Zwrocenie wartosci punktowej
 	int pokaz_punkty();
 };

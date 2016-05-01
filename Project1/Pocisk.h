@@ -1,7 +1,6 @@
 #pragma once
 #include "Istota.h"
 #include "Grozne.h"
-class Wrog;
 class Gracz;
 class Baza;
 class Pocisk : public Istota, public Grozne
@@ -10,6 +9,7 @@ private:
 
 	static int liczebnosc;
 public:
+	///Zwrocenie biezacej ilosci istniejacych pociskow
 	static int pokaz_ile();
 	
 
