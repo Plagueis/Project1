@@ -11,6 +11,7 @@
 #include"Pocisk.h"
 #include"Bonus.h"
 #include"Baza.h"
+#include"Grupa.h"
 
 using namespace std;
 
@@ -38,11 +39,8 @@ using namespace std;
 #define F_BONUS 0.1
 #define F_TRUDNOSCI 0.2
 
-
-
 int main()
 {
-
 ///////////////////////////
 ///STWORZENIE OKNA////////
 /////////////////////////
@@ -680,13 +678,39 @@ int main()
 ////KONIEC PETLI GLOWEJ////
 //////////////////////////		
 	}
-
-
+	/*
+	Grupa<Gracz> qaz;
+	qaz.dodaj(Gracz());
+	qaz.dodaj(Gracz());
+	qaz.dodaj(Gracz());
+	qaz.dodaj(Gracz());
+	qaz.dodaj(Gracz());
+	qaz.dodaj(Gracz());
+	qaz.dodaj(Gracz());
+	qaz.dodaj(Gracz());
+	qaz.porozsuwaj();
+	qaz.usun(0);
+	Grupa<Wrog> nic;
+	nic.dodaj(Wrog(55, 55));
+	nic.dodaj(Wrog(45, 45));
+	nic.dodaj(Wrog(10, 10));
+	nic.dodaj(Wrog(10, 10));
+	nic.porozsuwaj();
+	nic.usun(1);
+	Grupa<Pocisk> wsx;
+	wsx.dodaj(Pocisk(Gracz()));
+	wsx.dodaj(Pocisk(Gracz()));
+	wsx.dodaj(Pocisk(Gracz()));
+	wsx.dodaj(Pocisk(Gracz()));
+	wsx.porozsuwaj();
+	wsx.usun(3);
+	*/
 ///////////////////////
 ///ZAMKNIECIE/////////
 /////////////////////
 	okno.close();
 	cout << "YOU LOST" << endl;
 	cout << gracz.pokaz_punkty() << endl;
+	system("PAUSE");
 	return 0;
 }

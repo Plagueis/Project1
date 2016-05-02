@@ -151,6 +151,7 @@
     <ClInclude Include="Bonus.h" />
     <ClInclude Include="Gracz.h" />
     <ClInclude Include="Grozne.h" />
+    <ClInclude Include="Grupa.h" />
     <ClInclude Include="Pocisk.h" />
     <ClInclude Include="Wrog.h" />
     <ClInclude Include="Istota.h" />
