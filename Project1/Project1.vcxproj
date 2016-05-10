@@ -138,11 +138,14 @@
     <ClCompile Include="Gracz.cpp" />
     <ClCompile Include="Grozne.cpp" />
     <ClCompile Include="Istota.cpp" />
+    <ClCompile Include="Mapa.cpp" />
+    <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Pocisk.cpp" />
     <ClCompile Include="Punkt.cpp" />
     <ClCompile Include="Main.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Bartek\Desktop\Projekty\SFML\SFML-2.3.2\include</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="Sterowanie.cpp" />
     <ClCompile Include="Wrog.cpp" />
     <ClCompile Include="Zabijalne.cpp" />
   </ItemGroup>
@@ -152,7 +155,10 @@
     <ClInclude Include="Gracz.h" />
     <ClInclude Include="Grozne.h" />
     <ClInclude Include="Grupa.h" />
+    <ClInclude Include="Mapa.h" />
+    <ClInclude Include="Panel.h" />
     <ClInclude Include="Pocisk.h" />
+    <ClInclude Include="Sterowanie.h" />
     <ClInclude Include="Wrog.h" />
     <ClInclude Include="Istota.h" />
     <ClInclude Include="Punkt.h" />
