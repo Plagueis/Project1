@@ -1,6 +1,6 @@
 #include "Gracz.h"
 
-#define PRED 6
+#define PRED 3
 #define SILA 4
 
 

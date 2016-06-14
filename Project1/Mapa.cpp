@@ -27,3 +27,13 @@ Punkt Mapa::pokaz_LD()
 {
 	return rog[3];
 }
+
+int Mapa::pokaz_szerokosc()
+{
+	return rog[1].X()-rog[0].X();
+}
+
+int Mapa::pokaz_wysokosc()
+{
+	return rog[2].Y() - rog[1].Y();
+}

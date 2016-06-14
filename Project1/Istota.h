@@ -1,5 +1,6 @@
 #pragma once
 #include "Punkt.h"
+#include "Mapa.h"
 
 class Istota
 {
@@ -37,6 +38,8 @@ public:
 
 	///Zmiana pozycji istoty, tak aby znajdowala sie wewnatrz prostokata o wspolrzednych (0,0)(x,0)(x,y)(0,y)
 	void zamknij_w_prostokacie(int oX, int oY);
+
+	void zamknij_w_prostokacie(Mapa mapa);
 
 	///Sprawdzenie czy istoty sa w kontakcie
 	bool w_kontakcie_z(Istota &cel);

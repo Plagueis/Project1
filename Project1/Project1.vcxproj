@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="Baza.cpp" />
     <ClCompile Include="Bonus.cpp" />
+    <ClCompile Include="Gra.cpp" />
     <ClCompile Include="Gracz.cpp" />
     <ClCompile Include="Grozne.cpp" />
     <ClCompile Include="Istota.cpp" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="Baza.h" />
     <ClInclude Include="Bonus.h" />
+    <ClInclude Include="Gra.h" />
     <ClInclude Include="Gracz.h" />
     <ClInclude Include="Grozne.h" />
     <ClInclude Include="Grupa.h" />

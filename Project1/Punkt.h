@@ -20,4 +20,5 @@ public:
 	Punkt(double x, double y);
 	Punkt(const Punkt &wzor);
 	Punkt operator= (const Punkt &wzor);
+	bool Punkt::operator!=(const Punkt &porownywany);
 };

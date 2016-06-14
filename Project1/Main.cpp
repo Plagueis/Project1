@@ -26,8 +26,8 @@ using namespace std;
 #define WYSOKOSC 500
 #define PANEL 60
 #define ZYCIE 1000
-#define MIN_BONUS ZYCIE/4
-#define MAX_BONUS ZYCIE/2
+#define MIN_BONUS (ZYCIE/4)
+#define MAX_BONUS (ZYCIE/2)
 #define MAX_BAZ 15
 
 ///////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ int main()
 
 	bool L, P, G, D;
 	int taktowanie_wrogow = 0, taktowanie_pociskow = 0, taktowanie_bonusow = 0, taktowanie_baz = 0;
-	int trudnosc = 0, kolejne_ulepszenia = 1, czasomierz=0;
+	int trudnosc = 0, czasomierz=0;
 	Punkt mysz;
 	string pisak;
 
@@ -215,68 +215,6 @@ int main()
 ///////////////////////////////
 ///GENEROWANIE NOWEJ BAZY/////
 /////////////////////////////
-		int qwerty = 0;
-		if (taktowanie_baz != int(round(czas.asSeconds()*F_BAZA)))
-		{
-			if (Baza::pokaz_ile() <= MAX_BAZ)
-			{
-				nowa_baza = new Baza(rand() % SZEROKOSC, rand() % WYSOKOSC, trudnosc);
-				baza.push_back(*nowa_baza);
-				delete nowa_baza;
-			}
-		}
-		taktowanie_baz = int(round(czas.asSeconds()*F_BAZA));
-
-
-//////////////////////////////////
-///GENEROWANIE NOWEGO BONUSU/////
-////////////////////////////////
-
-		if (taktowanie_bonusow != int(round(czas.asSeconds()*F_BONUS)))
-		{
-			if (Bonus::pokaz_ile() < 3)
-			{
-				nowy_bonus = new Bonus(rand() % SZEROKOSC, rand() % WYSOKOSC, (rand()%(MAX_BONUS-MIN_BONUS))+MIN_BONUS, rand()%(trudnosc*100));
-				apteczka.push_back(*nowy_bonus);
-				delete nowy_bonus;
-			}
-		}
-		taktowanie_bonusow = int(round(czas.asSeconds()*F_BONUS));
-
-
-/////////////////////////////////
-///GENEROWANIE NOWEGO WROGA/////
-///////////////////////////////
-		if (Baza::pokaz_ile())
-		{
-			if(taktowanie_wrogow != int(round(czas.asSeconds()*(F_WROG+0.1*Baza::pokaz_ile()))))
-			{
-				nowy_wrog = new Wrog(baza[rand() % Baza::pokaz_ile()].pokaz_pozycje(), trudnosc);
-				armia.push_back(*nowy_wrog);
-				delete nowy_wrog;
-			}
-			taktowanie_wrogow = int(round(czas.asSeconds()*(F_WROG+0.1*Baza::pokaz_ile())));
-		}
-			
-
-
-
-
-///////////////////////////////////
-///GENEROWANIE NOWEGO POCISKU/////
-/////////////////////////////////
-
-			if (taktowanie_pociskow != int(round(czas.asSeconds()*F_POCISK)))
-			{
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && seria.size() < 5)
-				{
-				nowy_pocisk = new Pocisk(gracz);
-				seria.push_back(*nowy_pocisk);
-				delete nowy_pocisk;
-
-				}
-			}
-			taktowanie_pociskow = int(round(czas.asSeconds()*F_POCISK));
 
 
 

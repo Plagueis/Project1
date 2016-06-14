@@ -1,7 +1,7 @@
 #include "Wrog.h"
 #include "Gracz.h"
 
-#define PRED 2
+#define PRED 1
 #define PROM 10
 #define SILA 1
 #define ZYCIE 4

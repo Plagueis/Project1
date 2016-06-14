@@ -1,6 +1,7 @@
 #pragma once
 #include<vector>
 #include<iostream>
+#include"Punkt.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ public:
 	void rusz(double czas);
 	void zorientuj(Punkt &cel);
 	Podmiot* operator[](int indeks);
+	int rozmiar();
 	~Grupa();
 };
 
@@ -23,7 +25,7 @@ void Grupa<Podmiot>::dodaj(Podmiot nowy)
 {
 	Podmiot *wskaznik = new Podmiot(nowy);
 	zbiornik.push_back(wskaznik);
-	cout << "Dodalem " << zbiornik.size() << endl;
+	//cout << "Dodalem " << zbiornik.size() << endl;
 }
 
 template<class Podmiot>
@@ -31,7 +33,7 @@ void Grupa<Podmiot>::usun(int ktory)
 {
 	delete zbiornik[ktory];
 	zbiornik.erase(zbiornik.begin() + ktory);
-	cout << "Usunalem " << ktory<<" Zostalo "<<zbiornik.size() << endl;
+	//cout << "Usunalem " << ktory<<" Zostalo "<<zbiornik.size() << endl;
 }
 
 template<class Podmiot>
@@ -85,6 +87,12 @@ template<class Podmiot>
 Podmiot * Grupa<Podmiot>::operator[](int indeks)
 {
 	return zbiornik[indeks];
+}
+
+template<class Podmiot>
+int Grupa<Podmiot>::rozmiar()
+{
+	return zbiornik.size();
 }
 
 template<class Podmiot>

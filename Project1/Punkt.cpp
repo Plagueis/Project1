@@ -56,3 +56,12 @@ Punkt Punkt::operator=(const Punkt &wzor)
 	this->oY = wzor.oY;
 	return *this;
 }
+
+bool Punkt::operator!=(const Punkt &porownywany)
+{
+	if (this->oX != porownywany.oX)
+		return true;
+	if (this->oY != porownywany.oY)
+		return true;
+	return false;
+}

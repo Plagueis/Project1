@@ -154,6 +154,10 @@ void Istota::rozsun(Istota &cel)
 {
 	if (this->w_kontakcie_z(cel))
 	{
+		if (pozycja.X() == cel.pokaz_pozycje().X())
+			if (pozycja.Y() == cel.pokaz_pozycje().Y())
+				cel.popchnij(5);
+
 		double ile = double((promien + cel.pokaz_promien())) - pozycja.odleglosc(cel.pozycja);
 		
 		double pierwotnie = this->pokaz_orientacje();
@@ -189,6 +193,26 @@ void Istota::zamknij_w_prostokacie(int oX, int oY)
 	if (pozycja.Y() > oY - promien)
 	{
 		this->ustaw(pozycja.X(), oY - promien);
+	}
+}
+
+void Istota::zamknij_w_prostokacie(Mapa mapa)
+{
+	if (pozycja.X() < promien + mapa.pokaz_LD().X())
+	{
+		this->ustaw(promien, pozycja.Y());
+	}
+	if (pozycja.Y() < promien + mapa.pokaz_LG().Y())
+	{
+		this->ustaw(pozycja.X(), promien);
+	}
+	if (pozycja.X() > mapa.pokaz_PD().X() - promien)
+	{
+		this->ustaw(mapa.pokaz_PD().X() - promien, pozycja.Y());
+	}
+	if (pozycja.Y() > mapa.pokaz_PD().Y() - promien)
+	{
+		this->ustaw(pozycja.X(), mapa.pokaz_PD().Y() - promien);
 	}
 }
 

@@ -10,4 +10,6 @@ public:
 	Punkt pokaz_PG();
 	Punkt pokaz_PD();
 	Punkt pokaz_LD();
+	int pokaz_szerokosc();
+	int pokaz_wysokosc();
 };

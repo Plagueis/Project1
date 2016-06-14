@@ -12,6 +12,7 @@ private:
 
 public:
 
+	bool trafiony;
 	Gracz();
 	Gracz(int ile_zycia);
 	///Dodanie zadanej ilosci punktow
