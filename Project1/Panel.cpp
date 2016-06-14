@@ -1,6 +1,6 @@
 #include "Panel.h"
 
-Panel::Panel(int szer, int wys)
+Panel::Panel(int szer,int wys)
 {
 	szerokosc = szer;
 	wysokosc = wys;
@@ -11,8 +11,8 @@ Panel::Panel(int szer, int wys)
 
 void Panel::aktualizuj(Gracz gracz, sf::Clock czas)
 {
-	dlugosc_paska = gracz.pokaz_limit_zycia();
-	stan_paska = gracz.pokaz_zycie();
+	dlugosc_paska = gracz.pokaz_limit_zycia()/4;
+	stan_paska = gracz.pokaz_zycie()/4;
 	poziom = "Lvl: " + to_string(gracz.pokaz_poziom());
 	punkty = "Pts: " + to_string(gracz.pokaz_punkty());
 	int czasomierz = int(czas.getElapsedTime().asSeconds());
@@ -37,4 +37,39 @@ void Panel::aktualizuj(Gracz gracz, sf::Clock czas)
 	{
 		zegar += to_string(czasomierz % 60);
 	}
+}
+
+int Panel::pokaz_szerokosc()
+{
+	return szerokosc;
+}
+
+int Panel::pokaz_wysokosc()
+{
+	return wysokosc;
+}
+
+int Panel::pokaz_dlugosc_paska()
+{
+	return dlugosc_paska;
+}
+
+int Panel::pokaz_stan_paska()
+{
+	return stan_paska;
+}
+
+string Panel::pokaz_zegar()
+{
+	return zegar;
+}
+
+string Panel::pokaz_poziom()
+{
+	return poziom;
+}
+
+string Panel::pokaz_punkty()
+{
+	return punkty;
 }

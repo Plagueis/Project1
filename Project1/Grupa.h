@@ -48,13 +48,13 @@ void Grupa<Podmiot>::porozsuwaj()
 					for (int j = i + 1; j < zbiornik.size(); j++)
 					{
 						zbiornik[i]->rozsun((*zbiornik[j]));
-						cout << "Rozsuwam " << i << " i " << j << endl;
+						//cout << "Rozsuwam " << i << " i " << j << endl;
 					}
 				}
 			}
 			else
 			{
-				cout << "Nie dalo sie" << endl;
+				//cout << "Nie dalo sie" << endl;
 			}
 		}
 }

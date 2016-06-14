@@ -40,7 +40,7 @@ void Sterowanie::aktualizuj_przyciski()
 
 }
 
-void Sterowanie::aktualizuj_pozycje_myszy(sf::RenderWindow okno)
+void Sterowanie::aktualizuj_pozycje_myszy(sf::RenderWindow &okno)
 {
 	pozycja_myszy.ustaw(sf::Mouse::getPosition(okno).x, sf::Mouse::getPosition(okno).y);
 }

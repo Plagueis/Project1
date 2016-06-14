@@ -15,5 +15,5 @@ public:
 	bool czy_przycisk_myszy();
 	Punkt pokaz_gdzie_mysz();
 	void aktualizuj_przyciski();
-	void aktualizuj_pozycje_myszy(sf::RenderWindow okno);
+	void aktualizuj_pozycje_myszy(sf::RenderWindow &okno);
 };

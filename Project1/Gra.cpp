@@ -1,6 +1,6 @@
 #include "Gra.h"
 
-Gra::Gra() : mapa(Mapa(Punkt(0, 0), Punkt(1000, 0), Punkt(500, 1000), Punkt(500, 0))), panel(Panel(1000, 60)), gracz(Gracz(1000))
+Gra::Gra() : mapa(Mapa(Punkt(0, 0), Punkt(1000, 0), Punkt(1000, 500), Punkt(0, 500))), panel(Panel(1000, 60)), gracz(Gracz(1000))
 {
 	min_bonus = gracz.pokaz_zycie() / 4;
 	max_bonus = gracz.pokaz_zycie() / 2;
@@ -10,7 +10,18 @@ Gra::Gra() : mapa(Mapa(Punkt(0, 0), Punkt(1000, 0), Punkt(500, 1000), Punkt(500,
 	f_baza = 0.3;
 	f_bonus = 0.1;
 	f_trudnosci = 0.2;
-	trudnosc = 0;
+	trudnosc = 1;
+	gracz.ustaw(Punkt(mapa.pokaz_szerokosc(), mapa.pokaz_wysokosc()));
+	bazy.dodaj(Baza(rand() % mapa.pokaz_szerokosc(), rand() % mapa.pokaz_wysokosc(), trudnosc));
+	bazy.dodaj(Baza(rand() % mapa.pokaz_szerokosc(), rand() % mapa.pokaz_wysokosc(), trudnosc));
+	bazy.dodaj(Baza(rand() % mapa.pokaz_szerokosc(), rand() % mapa.pokaz_wysokosc(), trudnosc));
+	bazy.dodaj(Baza(rand() % mapa.pokaz_szerokosc(), rand() % mapa.pokaz_wysokosc(), trudnosc));
+	bazy.dodaj(Baza(rand() % mapa.pokaz_szerokosc(), rand() % mapa.pokaz_wysokosc(), trudnosc));
+	armia.dodaj(Wrog(bazy[0]->pokaz_pozycje()));
+	armia.dodaj(Wrog(bazy[1]->pokaz_pozycje()));
+	armia.dodaj(Wrog(bazy[2]->pokaz_pozycje()));
+	armia.dodaj(Wrog(bazy[3]->pokaz_pozycje()));
+	armia.dodaj(Wrog(bazy[4]->pokaz_pozycje()));
 }
 
 void Gra::wystartuj_naliczanie_jednostki_czasu()
@@ -26,6 +37,7 @@ void Gra::pobierz_jednostke_czasu()
 void Gra::pobierz_biezacy_czas()
 {
 	czas = zegar.getElapsedTime();
+	trudnosc = int(floor(czas.asSeconds() * f_trudnosci));
 }
 
 void Gra::trafienia_pociskow()
@@ -222,6 +234,7 @@ void Gra::koryguj_ustawienie()
 
 	}
 	armia.porozsuwaj();
+	gracz.zorientuj(sterowanie.pokaz_gdzie_mysz());
 }
 
 void Gra::tworzenie_nowych_istot()
